@@ -43,5 +43,22 @@ The goal of the project is to simplify outdoor tourism by connecting campers wit
 - Version Control: Git & GitHub
 
 ---
+CampingTN/
+│
+├── frontend/
+├── backend/
+├── database/
+├── assets/
+├── config/
 
+
+
+---
+
+## 🚀 Installation & Setup
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/selimbenfraj/CampingTN.git
+└── README.md
 ## 📂 Project Structure
