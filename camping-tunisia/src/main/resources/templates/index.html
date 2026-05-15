@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampingTN — Smart Camping Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --green: #2d6a4f;
+  --green-light: #52b788;
+  --green-pale: #d8f3dc;
+  --sand: #e9c46a;
+  --sand-dark: #f4a261;
+  --ocean: #023e8a;
+  --ocean-light: #0077b6;
+  --ocean-pale: #caf0f8;
+  --dark: #1a1a2e;
+  --dark2: #16213e;
+  --text: #2d2d2d;
+  --text-muted: #6b7280;
+  --bg: #f8fffe;
+  --white: #ffffff;
+  --border: #e5e7eb;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.14);
+  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; }
+
+/* NAV */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:1000;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;
+  height:70px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav-logo {
+  display:flex; align-items:center; gap:.75rem;
+  font-size:1.4rem; font-weight:800; color:var(--green);
+  text-decoration:none;
+}
+.nav-logo .icon { font-size:1.8rem; }
+.nav-links { display:flex; align-items:center; gap:.5rem; }
+.nav-links a {
+  padding:.5rem 1rem; border-radius:10px; text-decoration:none;
+  color:var(--text-muted); font-weight:500; font-size:.9rem;
+  transition:var(--transition);
+}
+.nav-links a:hover, .nav-links a.active { color:var(--green); background:var(--green-pale); }
+.nav-actions { display:flex; gap:.75rem; align-items:center; }
+.btn {
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.6rem 1.4rem; border-radius:10px; font-weight:600;
+  font-size:.9rem; cursor:pointer; transition:var(--transition);
+  border:none; text-decoration:none;
+}
+.btn-primary { background:var(--green); color:#fff; }
+.btn-primary:hover { background:#1b4332; transform:translateY(-1px); box-shadow:0 4px 16px rgba(45,106,79,.4); }
+.btn-outline { background:transparent; color:var(--green); border:2px solid var(--green); }
+.btn-outline:hover { background:var(--green); color:#fff; }
+.btn-sand { background:var(--sand-dark); color:#fff; }
+.btn-sand:hover { background:#e76f51; transform:translateY(-1px); }
+.btn-ocean { background:var(--ocean-light); color:#fff; }
+.btn-ocean:hover { background:var(--ocean); transform:translateY(-1px); }
+.btn-sm { padding:.4rem 1rem; font-size:.82rem; border-radius:8px; }
+.btn-lg { padding:.85rem 2rem; font-size:1rem; border-radius:12px; }
+
+/* SECTIONS */
+.section { display:none; padding-top:70px; min-height:100vh; }
+.section.active { display:block; }
+
+/* HERO */
+.hero {
+  position:relative; min-height:100vh;
+  background:linear-gradient(135deg, #0d1b2a 0%, #1b4332 50%, #0d1b2a 100%);
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0;
+  background:url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=1400&q=80') center/cover;
+  opacity:.25;
+}
+.hero-content {
+  position:relative; z-index:2;
+  max-width:800px; padding:2rem;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:.5rem;
+  background:rgba(255,255,255,0.1); backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.2);
+  padding:.5rem 1.2rem; border-radius:50px; color:#a7f3d0;
+  font-size:.85rem; font-weight:600; margin-bottom:1.5rem;
+}
+.hero h1 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.5rem,6vw,4.5rem);
+  color:#fff; line-height:1.1; margin-bottom:1.5rem;
+}
+.hero h1 span { color:var(--sand); }
+.hero p { color:rgba(255,255,255,.75); font-size:1.15rem; margin-bottom:2.5rem; line-height:1.7; }
+.hero-actions { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+.hero-stats {
+  position:absolute; bottom:3rem; left:50%; transform:translateX(-50%);
+  display:flex; gap:3rem; z-index:2;
+}
+.hero-stat { text-align:center; color:#fff; }
+.hero-stat .num { font-size:2rem; font-weight:800; color:var(--sand); }
+.hero-stat .label { font-size:.8rem; opacity:.7; }
+.scroll-indicator {
+  position:absolute; bottom:1.5rem; left:50%; transform:translateX(-50%);
+  color:rgba(255,255,255,.5); font-size:1.5rem;
+  animation:bounce 2s infinite;
+}
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-10px)} }
+
+/* FEATURES */
+.features-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:1.5rem; padding:4rem 2rem; max-width:1200px; margin:0 auto;
+}
+.feature-card {
+  background:#fff; border-radius:var(--radius); padding:2rem;
+  box-shadow:var(--shadow); transition:var(--transition); cursor:pointer;
+  border:2px solid transparent;
+}
+.feature-card:hover { transform:translateY(-8px); box-shadow:var(--shadow-lg); border-color:var(--green-light); }
+.feature-icon {
+  width:60px; height:60px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.6rem; margin-bottom:1.2rem;
+}
+.icon-green { background:var(--green-pale); }
+.icon-sand { background:#fef3c7; }
+.icon-ocean { background:var(--ocean-pale); }
+.icon-red { background:#fee2e2; }
+.feature-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:.5rem; }
+.feature-card p { color:var(--text-muted); font-size:.9rem; line-height:1.6; }
+
+/* PAGE HEADER */
+.page-header {
+  background:linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+  padding:4rem 2rem 3rem; text-align:center; color:#fff;
+  margin-bottom:0;
+}
+.page-header.desert { background:linear-gradient(135deg, #92400e 0%, var(--sand-dark) 100%); }
+.page-header.ocean-h { background:linear-gradient(135deg, var(--ocean) 0%, var(--ocean-light) 100%); }
+.page-header h1 { font-family:'Playfair Display',serif; font-size:2.5rem; margin-bottom:.75rem; }
+.page-header p { opacity:.85; font-size:1rem; max-width:600px; margin:0 auto; }
+
+/* CARDS */
+.cards-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:1.5rem; padding:2rem; max-width:1200px; margin:0 auto;
+}
+.card {
+  background:#fff; border-radius:var(--radius);
+  box-shadow:var(--shadow); overflow:hidden; transition:var(--transition);
+}
+.card:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); }
+.card-img {
+  width:100%; height:200px; object-fit:cover;
+  background:linear-gradient(135deg, var(--green-pale), var(--ocean-pale));
+  display:flex; align-items:center; justify-content:center;
+  font-size:4rem;
+}
+.card-body { padding:1.5rem; }
+.card-badge {
+  display:inline-flex; align-items:center; gap:.35rem;
+  padding:.3rem .8rem; border-radius:50px; font-size:.75rem; font-weight:600;
+  margin-bottom:1rem;
+}
+.badge-forest { background:#d1fae5; color:#065f46; }
+.badge-coastal { background:#dbeafe; color:#1e40af; }
+.badge-desert { background:#fef3c7; color:#92400e; }
+.card-body h3 { font-size:1.1rem; font-weight:700; margin-bottom:.4rem; }
+.card-body .location { color:var(--text-muted); font-size:.85rem; margin-bottom:1rem; }
+.stars { color:#f59e0b; font-size:.9rem; }
+.card-footer { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.5rem; border-top:1px solid var(--border); }
+.capacity { font-size:.82rem; color:var(--text-muted); }
+.capacity strong { color:var(--text); }
+
+/* FILTER BAR */
+.filter-bar {
+  display:flex; gap:.75rem; flex-wrap:wrap;
+  padding:1.5rem 2rem; max-width:1200px; margin:0 auto;
+  align-items:center;
+}
+.filter-btn {
+  padding:.5rem 1.2rem; border-radius:50px; font-size:.85rem; font-weight:500;
+  cursor:pointer; transition:var(--transition); border:2px solid var(--border);
+  background:#fff; color:var(--text-muted);
+}
+.filter-btn.active, .filter-btn:hover {
+  border-color:var(--green); color:var(--green); background:var(--green-pale);
+}
+.search-box {
+  display:flex; align-items:center; gap:.5rem;
+  background:#fff; border:2px solid var(--border); border-radius:50px;
+  padding:.5rem 1rem; flex:1; min-width:200px; max-width:350px;
+  transition:var(--transition);
+}
+.search-box:focus-within { border-color:var(--green); }
+.search-box input {
+  border:none; outline:none; flex:1; font-size:.9rem; background:transparent;
+}
+
+/* BUDGET TOOL */
+.budget-container {
+  max-width:900px; margin:0 auto; padding:2rem;
+}
+.budget-form {
+  background:#fff; border-radius:var(--radius); padding:2.5rem;
+  box-shadow:var(--shadow); margin-bottom:2rem;
+}
+.form-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.5rem; }
+.form-group label {
+  display:block; font-weight:600; font-size:.85rem; color:var(--text);
+  margin-bottom:.5rem;
+}
+.form-group input, .form-group select {
+  width:100%; padding:.75rem 1rem; border:2px solid var(--border);
+  border-radius:10px; font-size:.9rem; transition:var(--transition);
+  background:#fff; font-family:'Inter',sans-serif;
+}
+.form-group input:focus, .form-group select:focus {
+  outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(45,106,79,.1);
+}
+.budget-result {
+  background:#fff; border-radius:var(--radius); padding:2.5rem;
+  box-shadow:var(--shadow); display:none;
+}
+.budget-result.show { display:block; }
+.budget-hero {
+  text-align:center; padding:2rem;
+  background:linear-gradient(135deg, var(--green-pale), #fff);
+  border-radius:var(--radius); margin-bottom:2rem;
+}
+.budget-hero .amount {
+  font-size:3.5rem; font-weight:900; color:var(--green);
+  font-family:'Playfair Display',serif;
+}
+.budget-hero .range { color:var(--text-muted); font-size:.9rem; margin-top:.5rem; }
+.breakdown-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1rem; margin:1.5rem 0; }
+.breakdown-item {
+  text-align:center; padding:1.2rem; border-radius:12px;
+  background:var(--bg);
+}
+.breakdown-item .val { font-size:1.3rem; font-weight:700; color:var(--green); }
+.breakdown-item .lbl { font-size:.78rem; color:var(--text-muted); margin-top:.3rem; }
+.weather-card {
+  background:linear-gradient(135deg, #0077b6, #00b4d8);
+  border-radius:var(--radius); padding:1.5rem; color:#fff;
+  display:flex; align-items:center; gap:2rem; margin:1.5rem 0;
+  flex-wrap:wrap;
+}
+.weather-temp { font-size:3rem; font-weight:800; }
+.weather-info h4 { font-size:1rem; opacity:.9; }
+.weather-info p { font-size:.85rem; opacity:.75; margin-top:.25rem; }
+.alert-banner {
+  padding:1rem 1.5rem; border-radius:12px; margin:1rem 0;
+  font-size:.9rem; font-weight:500; display:flex; align-items:center; gap:.75rem;
+}
+.alert-red { background:#fef2f2; border:1px solid #fca5a5; color:#991b1b; }
+.alert-orange { background:#fff7ed; border:1px solid #fdba74; color:#9a3412; }
+.alert-yellow { background:#fffbeb; border:1px solid #fcd34d; color:#92400e; }
+
+/* SHOP */
+.shop-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+  gap:1.5rem; padding:2rem; max-width:1300px; margin:0 auto;
+}
+.product-card {
+  background:#fff; border-radius:var(--radius); box-shadow:var(--shadow);
+  overflow:hidden; transition:var(--transition);
+}
+.product-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); }
+.product-img {
+  height:180px; background:linear-gradient(135deg, #f0fdf4, #e0f2fe);
+  display:flex; align-items:center; justify-content:center; font-size:3.5rem;
+  position:relative;
+}
+.product-badges {
+  position:absolute; top:.75rem; left:.75rem; display:flex; gap:.4rem;
+}
+.tag {
+  padding:.2rem .6rem; border-radius:6px; font-size:.7rem; font-weight:700;
+}
+.tag-sale { background:var(--green); color:#fff; }
+.tag-rental { background:var(--ocean-light); color:#fff; }
+.product-body { padding:1.25rem; }
+.product-cat { font-size:.72rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.5px; }
+.product-body h3 { font-size:1rem; font-weight:700; margin:.3rem 0 .5rem; }
+.product-brand { font-size:.8rem; color:var(--text-muted); margin-bottom:.75rem; }
+.product-prices { display:flex; gap:1rem; align-items:baseline; margin-bottom:1rem; }
+.price-buy { font-size:1.2rem; font-weight:800; color:var(--green); }
+.price-rent { font-size:.85rem; color:var(--ocean-light); font-weight:600; }
+.product-actions { display:flex; gap:.5rem; }
+.cart-count {
+  position:absolute; top:-6px; right:-6px;
+  background:#ef4444; color:#fff; font-size:.7rem; font-weight:700;
+  width:18px; height:18px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* CART */
+.cart-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:2000;
+  display:none; justify-content:flex-end;
+}
+.cart-overlay.open { display:flex; }
+.cart-panel {
+  background:#fff; width:420px; max-width:100%; height:100vh;
+  overflow-y:auto; display:flex; flex-direction:column;
+  animation:slideIn .3s ease;
+}
+@keyframes slideIn { from{transform:translateX(100%)} to{transform:translateX(0)} }
+.cart-header {
+  padding:1.5rem; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; background:#fff; z-index:1;
+}
+.cart-items { flex:1; padding:1rem; }
+.cart-item {
+  display:flex; gap:1rem; padding:1rem 0; border-bottom:1px solid var(--border);
+  align-items:center;
+}
+.cart-item-img {
+  width:60px; height:60px; background:var(--bg);
+  border-radius:10px; display:flex; align-items:center; justify-content:center;
+  font-size:1.8rem; flex-shrink:0;
+}
+.cart-item-info { flex:1; }
+.cart-item-info h4 { font-size:.9rem; font-weight:600; }
+.cart-item-info .price { font-size:.85rem; color:var(--green); font-weight:700; }
+.qty-ctrl { display:flex; align-items:center; gap:.5rem; margin-top:.4rem; }
+.qty-btn {
+  width:26px; height:26px; border-radius:8px; border:1px solid var(--border);
+  background:#fff; cursor:pointer; font-size:1rem; display:flex;
+  align-items:center; justify-content:center; transition:var(--transition);
+}
+.qty-btn:hover { background:var(--green); color:#fff; border-color:var(--green); }
+.cart-footer {
+  padding:1.5rem; border-top:1px solid var(--border);
+  position:sticky; bottom:0; background:#fff;
+}
+.cart-total { display:flex; justify-content:space-between; font-size:1.1rem; font-weight:700; margin-bottom:1rem; }
+
+/* ADMIN PANEL */
+.admin-layout { display:flex; min-height:calc(100vh - 70px); }
+.admin-sidebar {
+  width:260px; background:var(--dark); color:#fff; flex-shrink:0;
+  padding:1.5rem 0;
+}
+.admin-sidebar h3 { padding:.5rem 1.5rem; font-size:.75rem; text-transform:uppercase;
+  letter-spacing:.1em; color:rgba(255,255,255,.4); margin-bottom:.5rem; }
+.admin-nav-item {
+  display:flex; align-items:center; gap:.75rem;
+  padding:.85rem 1.5rem; cursor:pointer; transition:var(--transition);
+  color:rgba(255,255,255,.65); font-size:.9rem; font-weight:500;
+}
+.admin-nav-item:hover, .admin-nav-item.active {
+  background:rgba(255,255,255,.08); color:#fff;
+}
+.admin-nav-item .dot {
+  width:8px; height:8px; border-radius:50%; background:var(--green-light);
+  display:none;
+}
+.admin-nav-item.active .dot { display:block; }
+.admin-content { flex:1; padding:2rem; overflow-y:auto; background:#f8fafc; }
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.25rem; margin-bottom:2rem; }
+.stat-card {
+  background:#fff; border-radius:var(--radius); padding:1.5rem;
+  box-shadow:var(--shadow); display:flex; align-items:center; gap:1rem;
+}
+.stat-icon {
+  width:52px; height:52px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center; font-size:1.4rem;
+}
+.stat-info .value { font-size:1.8rem; font-weight:800; line-height:1; }
+.stat-info .name { font-size:.82rem; color:var(--text-muted); margin-top:.25rem; }
+.table-container {
+  background:#fff; border-radius:var(--radius); box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.table-header {
+  padding:1.25rem 1.5rem; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.table-header h3 { font-size:1rem; font-weight:700; }
+table { width:100%; border-collapse:collapse; }
+th, td { padding:.85rem 1.25rem; text-align:left; font-size:.88rem; }
+th { background:#f8fafc; font-weight:600; color:var(--text-muted); font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; }
+td { border-top:1px solid var(--border); }
+tr:hover td { background:#fafafa; }
+.status-badge {
+  padding:.25rem .75rem; border-radius:50px; font-size:.75rem; font-weight:600;
+}
+.status-pending { background:#fef3c7; color:#92400e; }
+.status-confirmed { background:#d1fae5; color:#065f46; }
+.status-cancelled { background:#fee2e2; color:#991b1b; }
+.status-open { background:#fee2e2; color:#991b1b; }
+.status-in_progress { background:#dbeafe; color:#1e40af; }
+.status-resolved { background:#d1fae5; color:#065f46; }
+.priority-critical { background:#fee2e2; color:#991b1b; }
+.priority-high { background:#fff7ed; color:#9a3412; }
+.priority-medium { background:#fef3c7; color:#92400e; }
+.priority-low { background:#f0fdf4; color:#166534; }
+.admin-panel-section { display:none; }
+.admin-panel-section.active { display:block; }
+
+/* MODAL */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,.5);
+  z-index:3000; display:none; align-items:center; justify-content:center;
+  padding:1rem;
+}
+.modal-overlay.open { display:flex; }
+.modal {
+  background:#fff; border-radius:var(--radius); padding:2.5rem;
+  max-width:480px; width:100%; max-height:90vh; overflow-y:auto;
+  animation:fadeUp .3s ease;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+.modal h2 { font-size:1.4rem; font-weight:800; margin-bottom:1.5rem; }
+.modal-form { display:flex; flex-direction:column; gap:1.2rem; }
+.modal-actions { display:flex; gap:1rem; justify-content:flex-end; margin-top:1.5rem; }
+
+/* TOAST */
+.toast-container {
+  position:fixed; top:90px; right:1.5rem; z-index:9999;
+  display:flex; flex-direction:column; gap:.5rem;
+}
+.toast {
+  background:#fff; border-radius:12px; padding:1rem 1.5rem;
+  box-shadow:0 8px 32px rgba(0,0,0,.12); font-size:.9rem;
+  display:flex; align-items:center; gap:.75rem;
+  animation:toastIn .3s ease;
+  border-left:4px solid var(--green);
+  min-width:280px;
+}
+.toast.error { border-color:#ef4444; }
+.toast.warning { border-color:var(--sand-dark); }
+@keyframes toastIn { from{opacity:0;transform:translateX(100%)} to{opacity:1;transform:translateX(0)} }
+
+/* EXPLORE (MAP-LIKE) */
+.map-container {
+  background:#fff; border-radius:var(--radius); padding:2rem;
+  margin:0 2rem 2rem; box-shadow:var(--shadow);
+}
+.tunisia-map {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1px; background:var(--border); border-radius:12px; overflow:hidden;
+  margin-bottom:2rem;
+}
+.region-cell {
+  background:#fff; padding:1.2rem; text-align:center;
+  cursor:pointer; transition:var(--transition);
+}
+.region-cell:hover { background:var(--green-pale); }
+.region-cell.selected { background:var(--green); color:#fff; }
+.region-cell .rname { font-weight:700; font-size:.9rem; }
+.region-cell .rcount { font-size:.75rem; color:inherit; opacity:.7; margin-top:.25rem; }
+
+/* PROFILE */
+.profile-container { max-width:900px; margin:0 auto; padding:2rem; }
+.profile-header {
+  background:linear-gradient(135deg, var(--green), var(--green-light));
+  border-radius:var(--radius); padding:2.5rem; color:#fff; margin-bottom:2rem;
+  display:flex; align-items:center; gap:2rem; flex-wrap:wrap;
+}
+.avatar {
+  width:80px; height:80px; border-radius:50%; border:4px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.2); display:flex; align-items:center;
+  justify-content:center; font-size:2rem; color:#fff;
+}
+.profile-tabs {
+  display:flex; gap:.5rem; margin-bottom:1.5rem; flex-wrap:wrap;
+}
+.tab-btn {
+  padding:.6rem 1.3rem; border-radius:50px; font-weight:500; font-size:.88rem;
+  cursor:pointer; border:2px solid var(--border); background:#fff;
+  color:var(--text-muted); transition:var(--transition);
+}
+.tab-btn.active { border-color:var(--green); color:var(--green); background:var(--green-pale); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+.booking-card, .order-card {
+  background:#fff; border-radius:var(--radius); padding:1.5rem;
+  box-shadow:var(--shadow); margin-bottom:1rem;
+  display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+}
+
+/* FOOTER */
+footer {
+  background:var(--dark); color:rgba(255,255,255,.7);
+  padding:3rem 2rem; text-align:center;
+}
+footer .logo { font-size:1.5rem; font-weight:800; color:#fff; margin-bottom:.5rem; }
+footer p { font-size:.85rem; }
+footer .footer-links { display:flex; gap:1.5rem; justify-content:center; margin:1rem 0; flex-wrap:wrap; }
+footer .footer-links a { color:rgba(255,255,255,.6); text-decoration:none; font-size:.85rem; }
+footer .footer-links a:hover { color:var(--green-light); }
+
+/* RESPONSIVE */
+@media (max-width:768px) {
+  nav { padding:0 1rem; }
+  .nav-links { display:none; }
+  .hero h1 { font-size:2rem; }
+  .hero-stats { gap:1.5rem; }
+  .admin-layout { flex-direction:column; }
+  .admin-sidebar { width:100%; padding:0; }
+  .admin-sidebar nav { display:flex; overflow-x:auto; padding:.5rem; }
+  .admin-nav-item { white-space:nowrap; }
+  .cards-grid, .shop-grid { grid-template-columns:1fr; padding:1rem; }
+  .cart-panel { width:100%; }
+}
+/* utils */
+.text-center{text-align:center} .text-muted{color:var(--text-muted)}
+.mt-1{margin-top:.5rem} .mt-2{margin-top:1rem} .mt-3{margin-top:1.5rem} .mt-4{margin-top:2rem}
+.mb-2{margin-bottom:1rem} .mb-3{margin-bottom:1.5rem}
+.fw-bold{font-weight:700} .d-flex{display:flex} .gap-1{gap:.5rem} .gap-2{gap:1rem}
+.align-center{align-items:center} .justify-between{justify-content:space-between}
+.w-100{width:100%} .hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cartOverlay" onclick="if(event.target===this) toggleCart()">
+  <div class="cart-panel">
+    <div class="cart-header">
+      <h3>🛒 My Cart</h3>
+      <button class="btn btn-sm" onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cartTotal">0 TND</span>
+      </div>
+      <button class="btn btn-primary w-100" onclick="checkout()">Checkout →</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <h2 id="authTitle">Sign In</h2>
+    <div class="modal-form" id="authForm">
+      <div id="registerFields" class="hidden">
+        <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="form-group"><label>First Name</label><input id="regFirst" placeholder="Ahmed"></div>
+          <div class="form-group"><label>Last Name</label><input id="regLast" placeholder="Ben Ali"></div>
+        </div>
+      </div>
+      <div class="form-group"><label>Email</label><input id="authEmail" type="email" placeholder="your@email.com"></div>
+      <div class="form-group"><label>Password</label><input id="authPass" type="password" placeholder="••••••••"></div>
+      <div id="registerExtra" class="hidden">
+        <div class="form-group mt-2"><label>Phone (optional)</label><input id="regPhone" placeholder="+216 xx xxx xxx"></div>
+        <div class="form-group mt-2">
+          <label>Governorate</label>
+          <select id="regGov">
+            <option value="">Select region...</option>
+            <option>Tunis</option><option>Ariana</option><option>Ben Arous</option><option>Manouba</option>
+            <option>Bizerte</option><option>Nabeul</option><option>Jendouba</option><option>Beja</option>
+            <option>Le Kef</option><option>Siliana</option><option>Sousse</option><option>Monastir</option>
+            <option>Mahdia</option><option>Sfax</option><option>Kairouan</option><option>Kasserine</option>
+            <option>Sidi Bouzid</option><option>Gabès</option><option>Médenine</option><option>Tataouine</option>
+            <option>Gafsa</option><option>Tozeur</option><option>Kébili</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('authModal')">Cancel</button>
+      <button class="btn btn-primary" id="authSubmitBtn" onclick="submitAuth()">Sign In</button>
+    </div>
+    <p class="text-center mt-2" style="font-size:.85rem;color:var(--text-muted)">
+      <span id="authSwitch">No account? <a href="#" onclick="switchAuthMode()" style="color:var(--green)">Register</a></span>
+    </p>
+  </div>
+</div>
+
+<!-- BOOK MODAL -->
+<div class="modal-overlay" id="bookModal">
+  <div class="modal">
+    <h2>📅 Book Camping Spot</h2>
+    <div class="modal-form">
+      <div class="form-group"><label>Camping Center</label><input id="bookCenter" readonly></div>
+      <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="form-group"><label>Check-in</label><input type="date" id="bookIn"></div>
+        <div class="form-group"><label>Check-out</label><input type="date" id="bookOut"></div>
+      </div>
+      <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="form-group"><label>Persons</label><input type="number" id="bookPersons" min="1" max="20" value="2"></div>
+        <div class="form-group"><label>Accommodation</label>
+          <select id="bookType"><option value="TENT">Tent</option><option value="BUILDING">Building</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label>Special Requests</label><input id="bookNotes" placeholder="Any requests..."></div>
+      <div class="form-group"><label>Emergency Contact</label><input id="bookEmergency" placeholder="Name & Phone"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('bookModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitBooking()">Confirm Booking</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo" onclick="showSection('home')">
+    <span class="icon">⛺</span>CampingTN
+  </a>
+  <div class="nav-links">
+    <a href="#" onclick="showSection('home')" id="nav-home" class="active">Home</a>
+    <a href="#" onclick="showSection('explore')" id="nav-explore">Explore</a>
+    <a href="#" onclick="showSection('budget')" id="nav-budget">Budget AI</a>
+    <a href="#" onclick="showSection('shop')" id="nav-shop">Shop</a>
+    <a href="#" onclick="showSection('admin')" id="nav-admin" class="hidden">Admin</a>
+  </div>
+  <div class="nav-actions">
+    <div style="position:relative">
+      <button class="btn btn-outline btn-sm" onclick="toggleCart()">🛒 Cart <span id="cartBadge" class="cart-count hidden">0</span></button>
+    </div>
+    <button class="btn btn-primary btn-sm" id="authBtn" onclick="openAuthModal()">Sign In</button>
+    <div id="userMenu" class="hidden">
+      <button class="btn btn-outline btn-sm" onclick="showSection('profile')">👤 <span id="userFirstName"></span></button>
+      <button class="btn btn-sm" onclick="logout()" style="background:#fee2e2;color:#ef4444">Sign Out</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HOME -->
+<section class="section active" id="home">
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🇹🇳 Tunisia's #1 Smart Camping Platform</div>
+      <h1>Discover the Wild Beauty<br>of <span>Tunisia's Nature</span></h1>
+      <p>AI-powered budget predictions, 22+ certified camping centers across Tunisia,<br>complete gear shop and expert weather guidance for your perfect adventure.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-lg" onclick="showSection('explore')">🗺️ Explore Centers</button>
+        <button class="btn btn-lg" style="background:rgba(255,255,255,.15);color:#fff;border:2px solid rgba(255,255,255,.3)" onclick="showSection('budget')">🤖 Get Budget Estimate</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">22+</div><div class="label">Camping Centers</div></div>
+      <div class="hero-stat"><div class="num">7</div><div class="label">Regions</div></div>
+      <div class="hero-stat"><div class="num">2000+</div><div class="label">Total Capacity</div></div>
+      <div class="hero-stat"><div class="num">100%</div><div class="label">AI-Powered</div></div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="features-grid">
+    <div class="feature-card" onclick="showSection('explore')">
+      <div class="feature-icon icon-green">🏕️</div>
+      <h3>Explore Camping Centers</h3>
+      <p>Browse 22+ official camping centers across all 7 Tunisian regions — forest, coastal, and desert.</p>
+    </div>
+    <div class="feature-card" onclick="showSection('budget')">
+      <div class="feature-icon icon-sand">🤖</div>
+      <h3>AI Budget Planner</h3>
+      <p>Get instant budget predictions with weather data, equipment lists, and seasonal tips.</p>
+    </div>
+    <div class="feature-card" onclick="showSection('shop')">
+      <div class="feature-icon icon-ocean">🛒</div>
+      <h3>Gear Shop & Rental</h3>
+      <p>Buy or rent premium camping equipment tailored to your destination and conditions.</p>
+    </div>
+    <div class="feature-card" onclick="showSection('admin')">
+      <div class="feature-icon icon-red">⚙️</div>
+      <h3>Admin Dashboard</h3>
+      <p>Full platform management — bookings, orders, users, maintenance, and analytics.</p>
+    </div>
+  </div>
+
+  <!-- Regional Overview -->
+  <div style="padding:2rem;max-width:1200px;margin:0 auto">
+    <h2 style="font-family:'Playfair Display',serif;font-size:2rem;text-align:center;margin-bottom:.5rem">Tunisia Camping Regions</h2>
+    <p class="text-center text-muted mb-3">Based on 2002–2017 official survey data</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem">
+      <div style="background:#fff;border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);text-align:center;border-top:4px solid var(--green)">
+        <div style="font-size:2rem;margin-bottom:.5rem">🌲</div>
+        <div style="font-weight:700">Nord-Ouest</div>
+        <div style="font-size:1.5rem;font-weight:900;color:var(--green)">7</div>
+        <div style="font-size:.8rem;color:var(--text-muted)">Forest Centers</div>
+      </div>
+      <div style="background:#fff;border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);text-align:center;border-top:4px solid var(--ocean-light)">
+        <div style="font-size:2rem;margin-bottom:.5rem">🌊</div>
+        <div style="font-weight:700">Centre-Est</div>
+        <div style="font-size:1.5rem;font-weight:900;color:var(--ocean-light)">5</div>
+        <div style="font-size:.8rem;color:var(--text-muted)">Coastal Centers</div>
+      </div>
+      <div style="background:#fff;border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);text-align:center;border-top:4px solid var(--sand-dark)">
+        <div style="font-size:2rem;margin-bottom:.5rem">🏜️</div>
+        <div style="font-weight:700">Sud-Ouest</div>
+        <div style="font-size:1.5rem;font-weight:900;color:var(--sand-dark)">1</div>
+        <div style="font-size:.8rem;color:var(--text-muted)">Desert Centers</div>
+      </div>
+      <div style="background:#fff;border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);text-align:center;border-top:4px solid #8b5cf6">
+        <div style="font-size:2rem;margin-bottom:.5rem">🏕️</div>
+        <div style="font-weight:700">Nord-Est</div>
+        <div style="font-size:1.5rem;font-weight:900;color:#8b5cf6">3</div>
+        <div style="font-size:.8rem;color:var(--text-muted)">Mixed Centers</div>
+      </div>
+      <div style="background:#fff;border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);text-align:center;border-top:4px solid #ef4444">
+        <div style="font-size:2rem;margin-bottom:.5rem">🌅</div>
+        <div style="font-weight:700">Sud-Est</div>
+        <div style="font-size:1.5rem;font-weight:900;color:#ef4444">3</div>
+        <div style="font-size:.8rem;color:var(--text-muted)">Coastal + Desert</div>
+      </div>
+      <div style="background:#fff;border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);text-align:center;border-top:4px solid #f59e0b">
+        <div style="font-size:2rem;margin-bottom:.5rem">🏙️</div>
+        <div style="font-weight:700">District Tunis</div>
+        <div style="font-size:1.5rem;font-weight:900;color:#f59e0b">2</div>
+        <div style="font-size:.8rem;color:var(--text-muted)">Urban Centers</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="logo">⛺ CampingTN</div>
+    <p>Smart Camping Platform for Tunisia — Powered by AI & Official 2017 Data</p>
+    <div class="footer-links">
+      <a href="#">About</a><a href="#">Contact</a><a href="#">Privacy</a><a href="#">Terms</a>
+    </div>
+    <p style="margin-top:.5rem;font-size:.8rem">© 2024 CampingTN. Built with Spring Boot + MongoDB.</p>
+  </footer>
+</section>
+
+<!-- EXPLORE -->
+<section class="section" id="explore">
+  <div class="page-header">
+    <h1>🗺️ Explore Camping Centers</h1>
+    <p>Discover Tunisia's 22+ official camping centers across 7 regions</p>
+  </div>
+
+  <div class="filter-bar">
+    <div class="search-box">
+      <i class="fas fa-search" style="color:var(--text-muted)"></i>
+      <input placeholder="Search by name or region..." oninput="filterCenters()" id="searchInput">
+    </div>
+    <button class="filter-btn active" onclick="setFilter(this,'all')">All</button>
+    <button class="filter-btn" onclick="setFilter(this,'foréstiére')">🌲 Forest</button>
+    <button class="filter-btn" onclick="setFilter(this,'littoral')">🌊 Coastal</button>
+    <button class="filter-btn" onclick="setFilter(this,'désertique')">🏜️ Desert</button>
+  </div>
+
+  <div class="cards-grid" id="campingGrid"></div>
+</section>
+
+<!-- BUDGET AI -->
+<section class="section" id="budget">
+  <div class="page-header desert">
+    <h1>🤖 AI Budget Planner</h1>
+    <p>Get accurate budget estimates tailored to your destination, group size, and season</p>
+  </div>
+
+  <div class="budget-container">
+    <div class="budget-form">
+      <h3 style="margin-bottom:1.5rem;font-size:1.1rem">📋 Trip Details</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>📍 Governorate</label>
+          <select id="budgetGov">
+            <option value="">Select...</option>
+            <option>Tunis</option><option>Ariana</option><option>Manouba</option>
+            <option>Bizerte</option><option>Nabeul</option><option>Jendouba</option>
+            <option>Beja</option><option>Le Kef</option><option>Siliana</option>
+            <option>Sousse</option><option>Monastir</option><option>Mahdia</option>
+            <option>Sfax</option><option>Kasserine</option><option>Sidi Bouzid</option>
+            <option>Gabès</option><option>Médenine</option><option>Tataouine</option>
+            <option>Gafsa</option><option>Tozeur</option><option>Kébili</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>🌿 Site Type</label>
+          <select id="budgetType">
+            <option value="FOREST">🌲 Forest</option>
+            <option value="COASTAL">🌊 Coastal</option>
+            <option value="DESERT">🏜️ Desert</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>👥 Number of Persons</label>
+          <input type="number" id="budgetPersons" value="4" min="1" max="50">
+        </div>
+        <div class="form-group">
+          <label>📅 Number of Days</label>
+          <input type="number" id="budgetDays" value="3" min="1" max="30">
+        </div>
+        <div class="form-group">
+          <label>📆 Start Date</label>
+          <input type="date" id="budgetDate">
+        </div>
+        <div class="form-group">
+          <label>🏠 Accommodation</label>
+          <select id="budgetAccom">
+            <option value="TENT">⛺ Tent</option>
+            <option value="BUILDING">🏠 Building</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-lg mt-3 w-100" onclick="predictBudget()">
+        <i class="fas fa-calculator"></i> Calculate Budget
+      </button>
+    </div>
+
+    <div class="budget-result" id="budgetResult">
+      <div class="budget-hero">
+        <div style="font-size:.9rem;color:var(--text-muted);margin-bottom:.5rem">Estimated Total Budget</div>
+        <div class="amount" id="resultAmount">0 TND</div>
+        <div class="range" id="resultRange"></div>
+        <div style="margin-top:.75rem;font-size:.85rem;color:var(--text-muted)" id="resultMeta"></div>
+      </div>
+
+      <div id="weatherCard"></div>
+      <div id="alertBanner"></div>
+
+      <h4 style="margin-bottom:.75rem">💰 Budget Breakdown</h4>
+      <div class="breakdown-grid" id="breakdownGrid"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem" class="lists-grid">
+        <div>
+          <h4 style="margin-bottom:.75rem;color:#ef4444">🎒 Essential Items</h4>
+          <ul id="essentialList" style="list-style:none;display:flex;flex-direction:column;gap:.4rem"></ul>
+        </div>
+        <div>
+          <h4 style="margin-bottom:.75rem;color:var(--ocean-light)">✨ Optional Items</h4>
+          <ul id="optionalList" style="list-style:none;display:flex;flex-direction:column;gap:.4rem"></ul>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem">
+        <h4 style="margin-bottom:.75rem;color:var(--green)">💡 Tips</h4>
+        <div id="tipsList"></div>
+      </div>
+
+      <div class="d-flex gap-2 mt-3 justify-between" style="flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="showSection('shop')">🛒 Shop Recommended Gear</button>
+        <button class="btn btn-outline" onclick="showSection('explore')">🏕️ Find Camping Centers</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section class="section" id="shop">
+  <div class="page-header ocean-h">
+    <h1>🛒 Camping Gear Shop</h1>
+    <p>Buy or rent premium camping equipment — tailored to your destination</p>
+  </div>
+
+  <div class="filter-bar">
+    <div class="search-box">
+      <i class="fas fa-search" style="color:var(--text-muted)"></i>
+      <input placeholder="Search products..." oninput="filterProducts()" id="shopSearch">
+    </div>
+    <button class="filter-btn active" onclick="setProductFilter(this,'ALL')">All</button>
+    <button class="filter-btn" onclick="setProductFilter(this,'TENT')">⛺ Tents</button>
+    <button class="filter-btn" onclick="setProductFilter(this,'SLEEPING_BAG')">🛏️ Sleeping</button>
+    <button class="filter-btn" onclick="setProductFilter(this,'COOKING')">🍳 Cooking</button>
+    <button class="filter-btn" onclick="setProductFilter(this,'NAVIGATION')">🧭 Navigation</button>
+    <button class="filter-btn" onclick="setProductFilter(this,'SAFETY')">🦺 Safety</button>
+    <button class="filter-btn" onclick="setProductFilter(this,'HYDRATION')">💧 Hydration</button>
+  </div>
+
+  <div class="shop-grid" id="shopGrid"></div>
+</section>
+
+<!-- ADMIN -->
+<section class="section" id="admin">
+  <div class="admin-layout">
+    <div class="admin-sidebar">
+      <h3>Main</h3>
+      <div class="admin-nav-item active" onclick="switchAdmin('overview')"><div class="dot"></div>📊 Overview</div>
+      <div class="admin-nav-item" onclick="switchAdmin('bookings')"><div class="dot"></div>📅 Bookings</div>
+      <div class="admin-nav-item" onclick="switchAdmin('orders')"><div class="dot"></div>🛒 Orders</div>
+      <div class="admin-nav-item" onclick="switchAdmin('users')"><div class="dot"></div>👥 Users</div>
+      <h3 style="margin-top:1rem">Content</h3>
+      <div class="admin-nav-item" onclick="switchAdmin('centers')"><div class="dot"></div>🏕️ Camping Centers</div>
+      <div class="admin-nav-item" onclick="switchAdmin('products')"><div class="dot"></div>📦 Products</div>
+      <h3 style="margin-top:1rem">System</h3>
+      <div class="admin-nav-item" onclick="switchAdmin('maintenance')"><div class="dot"></div>🔧 Maintenance</div>
+      <div class="admin-nav-item" onclick="switchAdmin('analytics')"><div class="dot"></div>📈 Analytics</div>
+    </div>
+
+    <div class="admin-content">
+      <!-- OVERVIEW -->
+      <div class="admin-panel-section active" id="panel-overview">
+        <h2 style="margin-bottom:1.5rem">📊 Dashboard Overview</h2>
+        <div class="stats-grid" id="adminStats"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem" class="admin-bottom-grid">
+          <div class="table-container">
+            <div class="table-header"><h3>⚡ Recent Activity</h3></div>
+            <div style="padding:1rem" id="activityFeed"></div>
+          </div>
+          <div class="table-container">
+            <div class="table-header"><h3>📊 Regional Distribution (2017 Data)</h3></div>
+            <div style="padding:1rem">
+              <div id="regionalChart"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOOKINGS -->
+      <div class="admin-panel-section" id="panel-bookings">
+        <div class="d-flex justify-between align-center mb-3">
+          <h2>📅 Bookings Management</h2>
+        </div>
+        <div class="table-container">
+          <div class="table-header">
+            <h3>All Bookings</h3>
+            <span id="bookingCount" style="font-size:.85rem;color:var(--text-muted)"></span>
+          </div>
+          <div style="overflow-x:auto">
+            <table>
+              <thead><tr><th>ID</th><th>User</th><th>Center</th><th>Check-in</th><th>Persons</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="bookingsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORDERS -->
+      <div class="admin-panel-section" id="panel-orders">
+        <h2 class="mb-3">🛒 Orders Management</h2>
+        <div class="table-container">
+          <div class="table-header"><h3>All Orders</h3></div>
+          <div style="overflow-x:auto">
+            <table>
+              <thead><tr><th>ID</th><th>User</th><th>Amount</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="ordersTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div class="admin-panel-section" id="panel-users">
+        <h2 class="mb-3">👥 User Management</h2>
+        <div class="table-container">
+          <div class="table-header"><h3>Registered Users</h3></div>
+          <div style="overflow-x:auto">
+            <table>
+              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Region</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="usersTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTERS ADMIN -->
+      <div class="admin-panel-section" id="panel-centers">
+        <div class="d-flex justify-between align-center mb-3">
+          <h2>🏕️ Camping Centers</h2>
+          <button class="btn btn-primary btn-sm" onclick="alert('Add center form — connect to API')">+ Add Center</button>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>Name</th><th>Governorate</th><th>Type</th><th>Capacity</th><th>Rating</th><th>Status</th></tr></thead>
+            <tbody id="centersTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PRODUCTS ADMIN -->
+      <div class="admin-panel-section" id="panel-products">
+        <div class="d-flex justify-between align-center mb-3">
+          <h2>📦 Products Management</h2>
+          <button class="btn btn-primary btn-sm" onclick="alert('Add product — connect to API')">+ Add Product</button>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Rental/day</th><th>Stock</th><th>Actions</th></tr></thead>
+            <tbody id="productsAdminTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MAINTENANCE -->
+      <div class="admin-panel-section" id="panel-maintenance">
+        <div class="d-flex justify-between align-center mb-3">
+          <h2>🔧 Maintenance Tasks</h2>
+          <button class="btn btn-primary btn-sm" onclick="openAddTask()">+ New Task</button>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>Title</th><th>Category</th><th>Priority</th><th>Assigned To</th><th>Status</th><th>Due Date</th></tr></thead>
+            <tbody id="maintenanceTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ANALYTICS -->
+      <div class="admin-panel-section" id="panel-analytics">
+        <h2 class="mb-3">📈 Analytics & Reports</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem">
+          <div class="table-container" style="padding:1.5rem">
+            <h3 style="margin-bottom:1rem">Camping Centers by Region (2017)</h3>
+            <div id="analyticsRegion"></div>
+          </div>
+          <div class="table-container" style="padding:1.5rem">
+            <h3 style="margin-bottom:1rem">Capacity Distribution</h3>
+            <div id="analyticsCapacity"></div>
+          </div>
+          <div class="table-container" style="padding:1.5rem">
+            <h3 style="margin-bottom:1rem">Evolution 2002–2017</h3>
+            <div id="analyticsEvolution"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section class="section" id="profile">
+  <div class="profile-container">
+    <div class="profile-header">
+      <div class="avatar" id="profileAvatar">👤</div>
+      <div>
+        <h2 id="profileName">User Name</h2>
+        <p id="profileEmail" style="opacity:.8"></p>
+        <p id="profileGov" style="opacity:.6;font-size:.85rem;margin-top:.3rem"></p>
+      </div>
+    </div>
+    <div class="profile-tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'tab-bookings')">📅 My Bookings</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-orders')">🛒 My Orders</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-predictions')">🤖 Saved Predictions</button>
+    </div>
+    <div class="tab-content active" id="tab-bookings">
+      <div id="myBookings"><p class="text-muted">No bookings yet. <a href="#" onclick="showSection('explore')" style="color:var(--green)">Explore camping centers →</a></p></div>
+    </div>
+    <div class="tab-content" id="tab-orders">
+      <div id="myOrders"><p class="text-muted">No orders yet. <a href="#" onclick="showSection('shop')" style="color:var(--green)">Visit the shop →</a></p></div>
+    </div>
+    <div class="tab-content" id="tab-predictions">
+      <p class="text-muted">Your saved budget predictions will appear here.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+// ==================== STATE ====================
+const API = 'http://localhost:8080/api';
+let currentUser = JSON.parse(localStorage.getItem('campingUser') || 'null');
+let cart = JSON.parse(localStorage.getItem('campingCart') || '[]');
+let campingCenters = [];
+let products = [];
+let maintenanceTasks = [];
+let activeFilter = 'all';
+let productFilter = 'ALL';
+let authMode = 'login';
+let bookingCenterId = null;
+
+// ==================== DEMO DATA (shown when API offline) ====================
+const demoCenters = [
+  {id:'1',name:'Centre Douz',governorate:'Kébili',region:'Sud-Ouest',siteNature:'désertique',capacityTotal:230,capacityBuildings:30,capacityTents:200,rating:4.9,reviewCount:203,yearCreated:1990,latitude:33.46,longitude:8.97,phone:'75473420',description:'Gateway to the Sahara — the most iconic desert camping in Tunisia'},
+  {id:'2',name:'Centre Marsa El Kssiba',governorate:'Médenine',region:'Sud-Est',siteNature:'Littoral',capacityTotal:264,capacityBuildings:64,capacityTents:200,rating:4.7,reviewCount:112,yearCreated:1987,description:'Largest coastal camping in southern Tunisia — gateway to Djerba'},
+  {id:'3',name:'Centre El Salloume',governorate:'Sousse',region:'Centre-Est',siteNature:'Littoral',capacityTotal:130,capacityBuildings:30,capacityTents:100,rating:4.6,reviewCount:89,yearCreated:1999,phone:'73859001',description:'Premium beachfront camping on the Mediterranean coast'},
+  {id:'4',name:'Centre Beni Mtir',governorate:'Jendouba',region:'Nord-Ouest',siteNature:'foréstiére/ désertique',capacityTotal:100,capacityBuildings:100,capacityTents:0,rating:4.5,reviewCount:56,phone:'78649200',description:'Premium Beni Mtir forest retreat with mountain views'},
+  {id:'5',name:'Centre El Cheaanbi',governorate:'Kasserine',region:'Centre-Ouest',siteNature:'foréstiére/ désertique',capacityTotal:86,capacityBuildings:36,capacityTents:50,rating:4.4,reviewCount:52,yearCreated:2008,description:'Cheaanbi mountain range camping experience'},
+  {id:'6',name:'Centre El Douirat',governorate:'Tataouine',region:'Sud-Est',siteNature:'désertique',capacityTotal:0,rating:4.8,reviewCount:76,yearCreated:1996,description:'Authentic Saharan desert camping experience in Tataouine'},
+  {id:'7',name:'Centre El Douirat (Mahdia)',governorate:'Mahdia',region:'Centre-Est',siteNature:'Littoral',capacityTotal:80,capacityBuildings:80,rating:4.3,reviewCount:45,yearCreated:2011,phone:'73643815',description:'Modern coastal camping center in Mahdia'},
+  {id:'8',name:'Centre Chat Mami',governorate:'Bizerte',region:'Nord-Est',siteNature:'foréstiére/ littoral',capacityTotal:75,capacityBuildings:30,capacityTents:45,rating:4.2,reviewCount:34,phone:'72447235',description:'Beautiful coastal and forest site near Bizerte'},
+  {id:'9',name:'Centre Ain Selsla',governorate:'Kasserine',region:'Centre-Ouest',siteNature:'foréstiére/ désertique',capacityTotal:130,capacityBuildings:60,capacityTents:70,rating:4.1,reviewCount:37,yearCreated:1963,description:'Historic Kasserine mountain camping with desert views'},
+  {id:'10',name:'Centre El Hbibia',governorate:'Manouba',region:'District-Tunis',siteNature:'foréstiére',capacityTotal:80,capacityTents:80,rating:3.8,reviewCount:12,yearCreated:1989,description:'Serene forest camping in the heart of Manouba'},
+  {id:'11',name:'Centre Errimal',governorate:'Bizerte',region:'Nord-Est',siteNature:'foréstiére/ littoral',capacityTotal:95,capacityBuildings:95,rating:4.0,reviewCount:21,phone:'72440819',description:'Premium building accommodation in Bizerte coastal forest'},
+  {id:'12',name:'Centre Erramela',governorate:'Sfax',region:'Centre-Est',siteNature:'Littoral',capacityTotal:80,capacityBuildings:80,rating:3.7,reviewCount:29,yearCreated:1986,phone:'74481148',description:'Coastal camping center in Sfax region'},
+  {id:'13',name:'Centre Ain Bousaadia',governorate:'Manouba',region:'Nord-Ouest',siteNature:'foréstiére/ désertique',capacityTotal:132,capacityBuildings:32,capacityTents:100,rating:3.9,reviewCount:18,yearCreated:1989,description:'Family-friendly forest camping site'},
+];
+
+const demoProducts = [
+  {id:'p1',name:'Desert Pro 4 Tent',category:'TENT',price:289,rentalPricePerDay:25,availableForSale:true,availableForRental:true,rating:4.8,reviewCount:64,brand:'TrailMaster',description:'4-person ultralight tent, UV-resistant, perfect for desert camping',emoji:'⛺'},
+  {id:'p2',name:'Forest Shelter 3P',category:'TENT',price:199,rentalPricePerDay:18,availableForSale:true,availableForRental:true,rating:4.5,reviewCount:42,brand:'WoodCraft',description:'3-person tent with excellent rain protection',emoji:'🏕️'},
+  {id:'p3',name:'Sahara Dome 2P',category:'TENT',price:159,rentalPricePerDay:15,availableForSale:true,availableForRental:true,rating:4.3,reviewCount:38,brand:'SaharaGear',description:'Compact 2-person tent, breathable for hot climates',emoji:'⛺'},
+  {id:'p4',name:'Berber Warmth Sleeping Bag',category:'SLEEPING_BAG',price:89,rentalPricePerDay:8,availableForSale:true,availableForRental:true,rating:4.6,reviewCount:55,brand:'NightRest',description:'Rated -5°C, ideal for desert nights',emoji:'🛏️'},
+  {id:'p5',name:'Summer Coastal Bag',category:'SLEEPING_BAG',price:59,rentalPricePerDay:6,availableForSale:true,availableForRental:true,rating:4.2,reviewCount:31,brand:'NightRest',description:'Lightweight +15°C bag for coastal nights',emoji:'💤'},
+  {id:'p6',name:'Camp Chef Stove Set',category:'COOKING',price:75,rentalPricePerDay:10,availableForSale:true,availableForRental:true,rating:4.7,reviewCount:89,brand:'CampChef',description:'2-burner portable gas stove with windshield',emoji:'🍳'},
+  {id:'p7',name:'Mess Kit Pro',category:'COOKING',price:35,rentalPricePerDay:4,availableForSale:true,availableForRental:true,rating:4.4,reviewCount:67,brand:'CampChef',description:'Complete 4-person mess kit',emoji:'🥘'},
+  {id:'p8',name:'40L Insulated Cooler',category:'COOKING',price:85,rentalPricePerDay:12,availableForSale:true,availableForRental:true,rating:4.5,reviewCount:44,brand:'IcePro',description:'Keeps ice 48h — essential for desert trips',emoji:'🧊'},
+  {id:'p9',name:'Trail GPS Navigator',category:'NAVIGATION',price:199,rentalPricePerDay:20,availableForSale:true,availableForRental:true,rating:4.9,reviewCount:28,brand:'NavPro',description:'Rugged GPS with Tunisia offline maps',emoji:'🗺️'},
+  {id:'p10',name:'Silva Compass + Map Kit',category:'NAVIGATION',price:29,rentalPricePerDay:3,availableForSale:true,availableForRental:true,rating:4.6,reviewCount:52,brand:'Silva',description:'Professional compass with Tunisia topographic maps',emoji:'🧭'},
+  {id:'p11',name:'First Aid Kit Pro',category:'SAFETY',price:45,rentalPricePerDay:5,availableForSale:true,availableForRental:true,rating:4.8,reviewCount:73,brand:'SafeHike',description:'120-piece first aid kit for outdoor emergencies',emoji:'🩺'},
+  {id:'p12',name:'Headlamp 800 Lumen',category:'SAFETY',price:39,rentalPricePerDay:4,availableForSale:true,availableForRental:true,rating:4.7,reviewCount:82,brand:'LightPro',description:'Rechargeable 800-lumen headlamp with red night mode',emoji:'🔦'},
+  {id:'p13',name:'Desert 3L Water Bladder',category:'HYDRATION',price:35,rentalPricePerDay:4,availableForSale:true,availableForRental:true,rating:4.5,reviewCount:61,brand:'HydroTrail',description:'BPA-free hydration pack, insulated sleeve for desert heat',emoji:'💧'},
+  {id:'p14',name:'Water Purification Filter',category:'HYDRATION',price:55,rentalPricePerDay:7,availableForSale:true,availableForRental:true,rating:4.9,reviewCount:38,brand:'PureFlow',description:'Filters up to 100,000L — essential for forest spring water',emoji:'🚰'},
+  {id:'p15',name:'Emergency Survival Kit',category:'SAFETY',price:65,rentalPricePerDay:8,availableForSale:true,availableForRental:true,rating:4.7,reviewCount:45,brand:'SafeHike',description:'Whistle, fire starter, blanket, multi-tool',emoji:'🆘'},
+  {id:'p16',name:'Desert Sun Protection Kit',category:'CLOTHING',price:49,availableForSale:true,availableForRental:false,rating:4.4,reviewCount:29,brand:'SunShield',description:'UV shirt, sun hat, neck gaiter',emoji:'🧢'},
+];
+
+// ==================== NAVIGATION ====================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const navEl = document.getElementById('nav-'+id);
+  if (navEl) navEl.classList.add('active');
+
+  if (id === 'explore') loadCampingCenters();
+  if (id === 'shop') loadShop();
+  if (id === 'admin') loadAdmin();
+  if (id === 'profile') loadProfile();
+  window.scrollTo(0,0);
+}
+
+// ==================== AUTH ====================
+function openAuthModal() {
+  authMode = 'login';
+  updateAuthModal();
+  document.getElementById('authModal').classList.add('open');
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function switchAuthMode() {
+  authMode = authMode === 'login' ? 'register' : 'login';
+  updateAuthModal();
+}
+
+function updateAuthModal() {
+  const isLogin = authMode === 'login';
+  document.getElementById('authTitle').textContent = isLogin ? 'Sign In' : 'Create Account';
+  document.getElementById('authSubmitBtn').textContent = isLogin ? 'Sign In' : 'Create Account';
+  document.getElementById('authSwitch').innerHTML = isLogin
+    ? 'No account? <a href="#" onclick="switchAuthMode()" style="color:var(--green)">Register</a>'
+    : 'Have account? <a href="#" onclick="switchAuthMode()" style="color:var(--green)">Sign in</a>';
+  document.getElementById('registerFields').classList.toggle('hidden', isLogin);
+  document.getElementById('registerExtra').classList.toggle('hidden', isLogin);
+}
+
+async function submitAuth() {
+  const email = document.getElementById('authEmail').value;
+  const password = document.getElementById('authPass').value;
+  if (!email || !password) { toast('Please fill all fields','error'); return; }
+
+  if (authMode === 'login') {
+    // Demo login (offline mode)
+    if (email === 'admin@camping.tn' && password === 'Admin@2024') {
+      loginSuccess({email, firstName:'Admin', lastName:'CampingTN', roles:['ADMIN','USER'], userId:'admin1', token:'demo-token'});
+    } else if (email && password.length >= 6) {
+      loginSuccess({email, firstName:email.split('@')[0], lastName:'User', roles:['USER'], userId:'u1', token:'demo-token'});
+    } else {
+      toast('Invalid credentials','error');
+    }
+  } else {
+    const firstName = document.getElementById('regFirst').value;
+    const lastName = document.getElementById('regLast').value;
+    if (!firstName || !lastName) { toast('Please fill name fields','error'); return; }
+    loginSuccess({email, firstName, lastName, roles:['USER'], userId:'new-'+Date.now(), token:'demo-token'});
+    toast('Account created! Welcome to CampingTN 🎉');
+  }
+}
+
+function loginSuccess(user) {
+  currentUser = user;
+  localStorage.setItem('campingUser', JSON.stringify(user));
+  updateNavForUser();
+  closeModal('authModal');
+  toast(`Welcome, ${user.firstName}! 👋`);
+}
+
+function updateNavForUser() {
+  if (currentUser) {
+    document.getElementById('authBtn').classList.add('hidden');
+    document.getElementById('userMenu').classList.remove('hidden');
+    document.getElementById('userFirstName').textContent = currentUser.firstName;
+    if (currentUser.roles && currentUser.roles.includes('ADMIN')) {
+      document.getElementById('nav-admin').classList.remove('hidden');
+    }
+  } else {
+    document.getElementById('authBtn').classList.remove('hidden');
+    document.getElementById('userMenu').classList.add('hidden');
+    document.getElementById('nav-admin').classList.add('hidden');
+  }
+}
+
+function logout() {
+  currentUser = null;
+  localStorage.removeItem('campingUser');
+  updateNavForUser();
+  showSection('home');
+  toast('Signed out successfully');
+}
+
+// ==================== CAMPING CENTERS ====================
+function getSiteEmoji(nature) {
+  if (!nature) return '🏕️';
+  const n = nature.toLowerCase();
+  if (n.includes('désertique') && n.includes('foréstiére')) return '🌲🏜️';
+  if (n.includes('littoral') && n.includes('foréstiére')) return '🌲🌊';
+  if (n.includes('désertique')) return '🏜️';
+  if (n.includes('littoral')) return '🌊';
+  if (n.includes('foréstiére')) return '🌲';
+  return '🏕️';
+}
+
+function getSiteBadgeClass(nature) {
+  if (!nature) return 'badge-forest';
+  const n = nature.toLowerCase();
+  if (n.includes('littoral')) return 'badge-coastal';
+  if (n.includes('désertique')) return 'badge-desert';
+  return 'badge-forest';
+}
+
+function getSiteLabel(nature) {
+  if (!nature) return 'Forest';
+  const n = nature.toLowerCase();
+  if (n.includes('littoral') && n.includes('foréstiére')) return 'Forest & Coastal';
+  if (n.includes('désertique') && n.includes('foréstiére')) return 'Forest & Desert';
+  if (n.includes('littoral')) return 'Coastal';
+  if (n.includes('désertique')) return 'Desert';
+  return 'Forest';
+}
+
+function renderStars(rating) {
+  const full = Math.floor(rating);
+  const half = rating % 1 >= 0.5;
+  let s = '';
+  for(let i=0;i<full;i++) s+='⭐';
+  if(half) s+='✨';
+  return s + ` <span style="color:var(--text-muted);font-size:.8rem">(${rating})</span>`;
+}
+
+async function loadCampingCenters() {
+  campingCenters = demoCenters; // Use demo data
+  try {
+    const res = await fetch(`${API}/camping-centers`);
+    if(res.ok) campingCenters = await res.json();
+  } catch(e) { /* offline mode */ }
+  renderCenters();
+}
+
+function renderCenters() {
+  const grid = document.getElementById('campingGrid');
+  const search = (document.getElementById('searchInput')?.value||'').toLowerCase();
+  const filtered = campingCenters.filter(c => {
+    const matchSearch = !search || c.name.toLowerCase().includes(search) || c.governorate.toLowerCase().includes(search);
+    const matchFilter = activeFilter === 'all' || (c.siteNature||'').toLowerCase().includes(activeFilter);
+    return matchSearch && matchFilter;
+  });
+
+  if (!filtered.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted)">No camping centers found for your filters.</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(c => `
+    <div class="card">
+      <div class="card-img">${getSiteEmoji(c.siteNature)}</div>
+      <div class="card-body">
+        <span class="card-badge ${getSiteBadgeClass(c.siteNature)}">${getSiteLabel(c.siteNature)}</span>
+        <h3>${c.name}</h3>
+        <p class="location">📍 ${c.governorate}${c.region?' · '+c.region:''}</p>
+        <div class="stars">${renderStars(c.rating||4.0)}</div>
+        <p style="font-size:.85rem;color:var(--text-muted);margin-top:.5rem;line-height:1.5">${c.description||''}</p>
+      </div>
+      <div class="card-footer">
+        <div class="capacity">
+          👥 Total: <strong>${c.capacityTotal||'N/A'}</strong>
+          ${c.capacityBuildings?' · 🏠 '+c.capacityBuildings:''}
+          ${c.capacityTents?' · ⛺ '+c.capacityTents:''}
+          ${c.yearCreated?' · Est. '+c.yearCreated:''}
+        </div>
+        <div class="d-flex gap-1">
+          ${c.phone?`<a href="tel:${c.phone}" class="btn btn-outline btn-sm">📞</a>`:''}
+          <button class="btn btn-primary btn-sm" onclick="openBookModal('${c.id}','${c.name}')">Book</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function setFilter(btn, filter) {
+  document.querySelectorAll('.filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = filter;
+  renderCenters();
+}
+
+function filterCenters() { renderCenters(); }
+
+// ==================== BOOKING ====================
+function openBookModal(centerId, centerName) {
+  if (!currentUser) { toast('Please sign in to book','warning'); openAuthModal(); return; }
+  bookingCenterId = centerId;
+  document.getElementById('bookCenter').value = centerName;
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('bookIn').value = today;
+  document.getElementById('bookModal').classList.add('open');
+}
+
+async function submitBooking() {
+  const checkIn = document.getElementById('bookIn').value;
+  const checkOut = document.getElementById('bookOut').value;
+  const persons = document.getElementById('bookPersons').value;
+  if (!checkIn || !checkOut || !persons) { toast('Please fill all required fields','error'); return; }
+  if (checkOut <= checkIn) { toast('Check-out must be after check-in','error'); return; }
+
+  toast('Booking confirmed! 🎉 Check your profile for details.');
+  closeModal('bookModal');
+}
+
+// ==================== BUDGET AI ====================
+async function predictBudget() {
+  const gov = document.getElementById('budgetGov').value;
+  const type = document.getElementById('budgetType').value;
+  const persons = parseInt(document.getElementById('budgetPersons').value);
+  const days = parseInt(document.getElementById('budgetDays').value);
+  const dateStr = document.getElementById('budgetDate').value;
+  const accom = document.getElementById('budgetAccom').value;
+
+  if (!gov) { toast('Please select a governorate','error'); return; }
+
+  const startDate = dateStr ? new Date(dateStr) : new Date();
+
+  // Try API first, fallback to client-side calculation
+  let result;
+  try {
+    const headers = {'Content-Type':'application/json'};
+    if (currentUser?.token) headers['Authorization'] = 'Bearer '+currentUser.token;
+    const res = await fetch(`${API}/budget/predict`, {
+      method:'POST', headers,
+      body: JSON.stringify({governorate:gov, siteType:type, numberOfPersons:persons, numberOfDays:days, startDate:dateStr, accommodationType:accom})
+    });
+    if (res.ok) result = await res.json();
+  } catch(e) {}
+
+  if (!result) result = calcBudgetLocally(gov, type, persons, days, startDate, accom);
+
+  showBudgetResult(result);
+}
+
+function calcBudgetLocally(gov, type, persons, days, startDate, accom) {
+  const govIndex = {Tunis:1.3,Ariana:1.2,'Ben Arous':1.2,Manouba:1.0,Bizerte:1.1,Nabeul:1.15,Sousse:1.2,Monastir:1.2,Mahdia:1.1,Sfax:1.05,Kasserine:0.85,Médenine:1.0,Tataouine:0.95,Tozeur:1.0,Kébili:0.92,Gafsa:0.88,Jendouba:0.88,Beja:0.9}[gov]||1.0;
+  const month = startDate.getMonth();
+  const season = month<3||month===11?'WINTER':month<6?'SPRING':month<9?'SUMMER':'AUTUMN';
+  let seasonMult = 1.0;
+  if(type==='COASTAL')seasonMult=season==='SUMMER'?1.5:season==='WINTER'?0.85:1.1;
+  else if(type==='DESERT')seasonMult=season==='SUMMER'?0.7:1.3;
+  else seasonMult=season==='SUMMER'?1.1:season==='WINTER'?0.9:1.2;
+
+  const baseAccom = {TENT_COASTAL:18,TENT_FOREST:15,TENT_DESERT:12,BUILDING_COASTAL:35,BUILDING_FOREST:28,BUILDING_DESERT:32}[accom+'_'+type]||20;
+  const accomTotal = baseAccom * persons * days * govIndex * seasonMult;
+  const foodTotal = 35 * govIndex * persons * days;
+  const distMap = {Tunis:0,Bizerte:65,Nabeul:80,Jendouba:160,Sousse:140,Mahdia:200,Sfax:270,Kasserine:250,Médenine:430,Tataouine:500,Tozeur:450,Kébili:430,Gafsa:360};
+  const dist = distMap[gov]||150;
+  const transport = dist * 2 * 0.35;
+  const equip = (type==='DESERT'?45:type==='FOREST'?30:25)*persons+(days>3?days*5:0);
+  const misc = (type==='DESERT'?80:type==='COASTAL'?60:30)*Math.min(persons,4)+days*10;
+  const total = accomTotal+foodTotal+transport+equip+misc;
+  const v = total*0.15;
+
+  const isSouth = ['Kébili','Tataouine','Tozeur','Gafsa','Médenine'].includes(gov);
+  const temp = isSouth?(season==='SUMMER'?44:season==='WINTER'?15:28):(season==='SUMMER'?32:season==='WINTER'?13:22);
+  const humidity = isSouth?(season==='SUMMER'?20:45):(season==='SUMMER'?65:80);
+
+  const essentials = {DESERT:['🆘 First Aid Kit','💧 5L Water/person/day','☀️ UV Clothing','🧭 GPS/Compass','🔦 Headlamp','🛏️ Warm Sleeping Bag (-5°C)','🥘 Cooking Kit'],COASTAL:['🆘 First Aid Kit','💧 Water Bottles','🌊 Life Jacket','🔦 Headlamp','🛏️ Summer Sleeping Bag','🎒 Waterproof Bag'],FOREST:['🆘 First Aid Kit','💧 Water Filter','🌧️ Rain Poncho','🥾 Hiking Boots','🔦 Headlamp','🛏️ Sleeping Bag','🧱 Trekking Poles']}[type];
+  const optional = ['📷 Camera/GoPro','🔋 Power Bank','🎵 Portable Speaker','🌙 Star Map App','🪑 Camping Chair'];
+  const tips = [`Book at least 2 weeks in advance for ${season} season`,`${type==='DESERT'?'🌙 Desert nights drop to 5°C — always bring warm gear!':type==='COASTAL'?'🌊 Check sea conditions before swimming':' 🌿 Check for tick alerts in forest areas'}`,`Download offline map of ${gov} before departure`];
+
+  return {
+    governorate:gov, siteType:type, numberOfPersons:persons, numberOfDays:days,
+    predictedBudget:Math.round(total*100)/100,
+    budgetMin:Math.round((total-v)*100)/100, budgetMax:Math.round((total+v)*100)/100,
+    budgetBreakdown:{Accommodation:Math.round(accomTotal*100)/100,'Food & Water':Math.round(foodTotal*100)/100,Transport:Math.round(transport*100)/100,Equipment:Math.round(equip*100)/100,'Activities & Misc':Math.round(misc*100)/100},
+    essentialItems:essentials, optionalItems:optional, tips, season, temperature:temp, humidity,
+    weatherAlert:(type==='DESERT'&&season==='SUMMER')?'🔴 EXTREME HEAT: Desert temperatures exceed 45°C in summer. Not recommended for children or elderly.':(type==='FOREST'&&season==='SUMMER')?'🟠 FIRE RISK: High fire risk in summer forests.':null,
+    weatherSummary:`Typical ${season.toLowerCase()} in ${gov}: ${isSouth?(season==='SUMMER'?'extreme heat, 40–48°C':'mild, 15–20°C days, cold nights'):'Mediterranean climate, '+temp+'°C avg'}`
+  };
+}
+
+function showBudgetResult(r) {
+  const el = document.getElementById('budgetResult');
+  el.classList.add('show');
+  document.getElementById('resultAmount').textContent = r.predictedBudget.toLocaleString('fr-TN') + ' TND';
+  document.getElementById('resultRange').textContent = `Range: ${r.budgetMin} – ${r.budgetMax} TND`;
+  document.getElementById('resultMeta').textContent = `${r.numberOfPersons} persons · ${r.numberOfDays} days · ${r.governorate} · ${r.season||''}`;
+
+  // Weather card
+  document.getElementById('weatherCard').innerHTML = `
+    <div class="weather-card">
+      <div class="weather-temp">${r.temperature||'?'}°C</div>
+      <div class="weather-info">
+        <h4>🌤️ ${r.weatherSummary||'Weather info'}</h4>
+        <p>Humidity: ${r.humidity||'?'}% · ${r.season||''} conditions</p>
+      </div>
+    </div>`;
+
+  // Alert
+  const alertEl = document.getElementById('alertBanner');
+  if (r.weatherAlert) {
+    const cls = r.weatherAlert.startsWith('🔴')?'alert-red':r.weatherAlert.startsWith('🟠')?'alert-orange':'alert-yellow';
+    alertEl.innerHTML = `<div class="alert-banner ${cls}"><span style="font-size:1.2rem">⚠️</span>${r.weatherAlert}</div>`;
+  } else alertEl.innerHTML = '';
+
+  // Breakdown
+  const breakdownIcons = {Accommodation:'🏠','Food & Water':'🍽️',Transport:'🚗',Equipment:'🎒','Activities & Misc':'🎯'};
+  document.getElementById('breakdownGrid').innerHTML = Object.entries(r.budgetBreakdown||{}).map(([k,v])=>`
+    <div class="breakdown-item">
+      <div style="font-size:1.5rem">${breakdownIcons[k]||'💰'}</div>
+      <div class="val">${v} TND</div>
+      <div class="lbl">${k}</div>
+    </div>`).join('');
+
+  // Lists
+  document.getElementById('essentialList').innerHTML = (r.essentialItems||[]).map(i=>
+    `<li style="padding:.4rem .75rem;background:#fef2f2;border-radius:8px;font-size:.85rem;color:#7f1d1d">${i}</li>`).join('');
+  document.getElementById('optionalList').innerHTML = (r.optionalItems||[]).slice(0,6).map(i=>
+    `<li style="padding:.4rem .75rem;background:#eff6ff;border-radius:8px;font-size:.85rem;color:#1e3a5f">${i}</li>`).join('');
+
+  // Tips
+  document.getElementById('tipsList').innerHTML = (r.tips||[]).map(t=>
+    `<div style="padding:.75rem 1rem;background:var(--green-pale);border-radius:10px;font-size:.88rem;margin-bottom:.5rem;color:#1a4731">💡 ${t}</div>`).join('');
+
+  el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ==================== SHOP ====================
+function getProductEmoji(cat) {
+  return {TENT:'⛺',SLEEPING_BAG:'🛏️',COOKING:'🍳',NAVIGATION:'🧭',SAFETY:'🛡️',HYDRATION:'💧',CLOTHING:'👕'}[cat]||'📦';
+}
+
+function loadShop() {
+  products = demoProducts;
+  renderProducts();
+}
+
+function renderProducts() {
+  const grid = document.getElementById('shopGrid');
+  const search = (document.getElementById('shopSearch')?.value||'').toLowerCase();
+  const filtered = products.filter(p => {
+    const matchCat = productFilter === 'ALL' || p.category === productFilter;
+    const matchSearch = !search || p.name.toLowerCase().includes(search);
+    return matchCat && matchSearch;
+  });
+
+  if(!filtered.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted)">No products found.</div>';return;}
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card">
+      <div class="product-img">
+        ${p.emoji||getProductEmoji(p.category)}
+        <div class="product-badges">
+          ${p.availableForSale?'<span class="tag tag-sale">BUY</span>':''}
+          ${p.availableForRental?'<span class="tag tag-rental">RENT</span>':''}
+        </div>
+      </div>
+      <div class="product-body">
+        <div class="product-cat">${p.category?.replace('_',' ')}</div>
+        <h3>${p.name}</h3>
+        <div class="product-brand">${p.brand||''}</div>
+        <div class="stars">${renderStars(p.rating||4.0)} <span style="font-size:.78rem;color:var(--text-muted)">(${p.reviewCount||0})</span></div>
+        <p style="font-size:.82rem;color:var(--text-muted);margin:.5rem 0;line-height:1.5">${p.description||''}</p>
+        <div class="product-prices">
+          ${p.availableForSale?`<span class="price-buy">${p.price} TND</span>`:''}
+          ${p.availableForRental?`<span class="price-rent">Rent: ${p.rentalPricePerDay} TND/day</span>`:''}
+        </div>
+        <div class="product-actions">
+          ${p.availableForSale?`<button class="btn btn-primary btn-sm" style="flex:1" onclick="addToCart('${p.id}','buy')">🛒 Buy</button>`:''}
+          ${p.availableForRental?`<button class="btn btn-ocean btn-sm" style="flex:1" onclick="addToCart('${p.id}','rent')">🔄 Rent</button>`:''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function setProductFilter(btn, cat) {
+  document.querySelectorAll('.filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  productFilter = cat;
+  renderProducts();
+}
+function filterProducts() { renderProducts(); }
+
+// ==================== CART ====================
+function addToCart(productId, mode) {
+  const p = products.find(x => x.id === productId);
+  if (!p) return;
+  const existing = cart.find(i => i.id === productId && i.mode === mode);
+  if (existing) { existing.qty++; }
+  else { cart.push({id:productId, name:p.name, price:mode==='buy'?p.price:p.rentalPricePerDay, mode, qty:1, emoji:p.emoji||getProductEmoji(p.category)}); }
+  localStorage.setItem('campingCart', JSON.stringify(cart));
+  updateCartBadge();
+  toast(`${p.name} added to cart 🛒`);
+}
+
+function toggleCart() {
+  document.getElementById('cartOverlay').classList.toggle('open');
+  renderCart();
+}
+
+function renderCart() {
+  const el = document.getElementById('cartItems');
+  if (!cart.length) { el.innerHTML='<p style="text-align:center;color:var(--text-muted);padding:2rem">Your cart is empty</p>'; document.getElementById('cartTotal').textContent='0 TND'; return; }
+  el.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-img">${item.emoji}</div>
+      <div class="cart-item-info">
+        <h4>${item.name}</h4>
+        <div class="price">${item.price} TND ${item.mode==='rent'?'/day':''}</div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="updateQty('${item.id}','${item.mode}',-1)">−</button>
+          <span style="font-weight:600;min-width:20px;text-align:center">${item.qty}</span>
+          <button class="qty-btn" onclick="updateQty('${item.id}','${item.mode}',1)">+</button>
+        </div>
+      </div>
+      <div style="font-weight:700;color:var(--green)">${(item.price*item.qty).toFixed(2)} TND</div>
+    </div>`).join('');
+  const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  document.getElementById('cartTotal').textContent = total.toFixed(2)+' TND';
+}
+
+function updateQty(id, mode, delta) {
+  const i = cart.find(x=>x.id===id&&x.mode===mode);
+  if(i){i.qty+=delta; if(i.qty<=0)cart=cart.filter(x=>!(x.id===id&&x.mode===mode));}
+  localStorage.setItem('campingCart',JSON.stringify(cart));
+  updateCartBadge(); renderCart();
+}
+
+function updateCartBadge() {
+  const total = cart.reduce((s,i)=>s+i.qty,0);
+  const badge = document.getElementById('cartBadge');
+  badge.textContent = total;
+  badge.classList.toggle('hidden', total===0);
+}
+
+function checkout() {
+  if (!currentUser) { toast('Please sign in to checkout','warning'); toggleCart(); openAuthModal(); return; }
+  toast('Order placed! 🎉 Check your profile for status.');
+  cart = [];
+  localStorage.setItem('campingCart',JSON.stringify(cart));
+  updateCartBadge(); renderCart();
+  toggleCart();
+}
+
+// ==================== ADMIN ====================
+function switchAdmin(panel) {
+  document.querySelectorAll('.admin-nav-item').forEach(n=>n.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.querySelectorAll('.admin-panel-section').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+panel).classList.add('active');
+  if(panel==='maintenance') renderMaintenance();
+  if(panel==='analytics') renderAnalytics();
+  if(panel==='centers') renderCentersAdmin();
+  if(panel==='products') renderProductsAdmin();
+  if(panel==='bookings') renderBookingsAdmin();
+  if(panel==='orders') renderOrdersAdmin();
+  if(panel==='users') renderUsersAdmin();
+}
+
+function loadAdmin() {
+  // Stats
+  const stats = [
+    {icon:'🏕️',label:'Camping Centers',value:'13',color:'#d1fae5',iconColor:'#065f46'},
+    {icon:'📅',label:'Total Bookings',value:'47',color:'#dbeafe',iconColor:'#1e40af'},
+    {icon:'🛒',label:'Total Orders',value:'128',color:'#fef3c7',iconColor:'#92400e'},
+    {icon:'👥',label:'Users',value:'312',color:'#f3e8ff',iconColor:'#7c3aed'},
+    {icon:'💰',label:'Revenue (TND)',value:'18,450',color:'#d1fae5',iconColor:'#065f46'},
+    {icon:'🔧',label:'Open Tasks',value:'3',color:'#fee2e2',iconColor:'#991b1b'},
+  ];
+  document.getElementById('adminStats').innerHTML = stats.map(s=>`
+    <div class="stat-card">
+      <div class="stat-icon" style="background:${s.color};color:${s.iconColor}">${s.icon}</div>
+      <div class="stat-info">
+        <div class="value">${s.value}</div>
+        <div class="name">${s.label}</div>
+      </div>
+    </div>`).join('');
+
+  // Activity feed
+  const activities = [
+    {icon:'🏕️',text:'New booking at Centre Douz',user:'ahmed@test.tn',time:'2min ago'},
+    {icon:'🛒',text:'Order #128 — 245 TND',user:'sara@test.tn',time:'15min ago'},
+    {icon:'👤',text:'New user registered',user:'zied@test.tn',time:'1hr ago'},
+    {icon:'🔧',text:'Maintenance task resolved',user:'Admin',time:'2hr ago'},
+    {icon:'⭐',text:'New 5-star review at Centre El Salloume',user:'maria@test.tn',time:'3hr ago'},
+  ];
+  document.getElementById('activityFeed').innerHTML = activities.map(a=>`
+    <div style="display:flex;align-items:center;gap:.75rem;padding:.6rem 0;border-bottom:1px solid var(--border)">
+      <span style="font-size:1.3rem">${a.icon}</span>
+      <div style="flex:1"><div style="font-size:.88rem;font-weight:500">${a.text}</div><div style="font-size:.78rem;color:var(--text-muted)">${a.user} · ${a.time}</div></div>
+    </div>`).join('');
+
+  // Regional bar chart
+  const regions = [{r:'Nord-Ouest',n:7},{r:'Centre-Est',n:5},{r:'Nord-Est',n:3},{r:'Centre-Ouest',n:2},{r:'Sud-Est',n:3},{r:'District-Tunis',n:2},{r:'Sud-Ouest',n:1}];
+  document.getElementById('regionalChart').innerHTML = regions.map(r=>`
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem">
+      <div style="width:120px;font-size:.8rem;color:var(--text-muted)">${r.r}</div>
+      <div style="flex:1;background:#f3f4f6;border-radius:4px;height:18px;overflow:hidden">
+        <div style="width:${r.n/7*100}%;background:var(--green);height:100%;border-radius:4px"></div>
+      </div>
+      <div style="font-weight:700;font-size:.9rem;width:20px">${r.n}</div>
+    </div>`).join('');
+
+  // Init maintenance tasks
+  if (!maintenanceTasks.length) {
+    maintenanceTasks = [
+      {id:'t1',title:'Update ML model with 2024 data',category:'ML_MODEL',priority:'HIGH',assignedTo:'Data Team',status:'IN_PROGRESS',dueDate:'2024-02-15'},
+      {id:'t2',title:'Database index optimization',category:'DATABASE',priority:'MEDIUM',assignedTo:'DevOps',status:'OPEN',dueDate:'2024-02-20'},
+      {id:'t3',title:'Fix mobile nav on iOS Safari',category:'WEBSITE',priority:'LOW',assignedTo:'Frontend',status:'OPEN',dueDate:'2024-03-01'},
+    ];
+  }
+}
+
+function renderCentersAdmin() {
+  document.getElementById('centersTable').innerHTML = demoCenters.map(c=>`
+    <tr>
+      <td style="font-weight:600">${c.name}</td>
+      <td>${c.governorate}</td>
+      <td>${getSiteLabel(c.siteNature)}</td>
+      <td>${c.capacityTotal||'N/A'}</td>
+      <td>⭐ ${c.rating}</td>
+      <td><span class="status-badge status-confirmed">Active</span></td>
+    </tr>`).join('');
+}
+
+function renderProductsAdmin() {
+  document.getElementById('productsAdminTable').innerHTML = demoProducts.map(p=>`
+    <tr>
+      <td style="font-weight:600">${p.name}</td>
+      <td>${p.category?.replace('_',' ')}</td>
+      <td>${p.price} TND</td>
+      <td>${p.rentalPricePerDay||'—'} TND</td>
+      <td>${p.stockSale||0} / ${p.stockRental||0}</td>
+      <td>
+        <button class="btn btn-sm btn-outline" onclick="alert('Edit: ${p.name}')">✏️</button>
+        <button class="btn btn-sm" style="background:#fee2e2;color:#ef4444" onclick="alert('Delete: ${p.name}')">🗑️</button>
+      </td>
+    </tr>`).join('');
+}
+
+function renderBookingsAdmin() {
+  const bookings = [{id:'B001',user:'ahmed@test.tn',center:'Centre Douz',checkIn:'2024-02-10',persons:4,status:'CONFIRMED'},
+    {id:'B002',user:'sara@test.tn',center:'Centre El Salloume',checkIn:'2024-02-15',persons:2,status:'PENDING'},
+    {id:'B003',user:'zied@test.tn',center:'Centre Beni Mtir',checkIn:'2024-03-01',persons:6,status:'CONFIRMED'}];
+  document.getElementById('bookingCount').textContent = bookings.length + ' bookings';
+  document.getElementById('bookingsTable').innerHTML = bookings.map(b=>`
+    <tr>
+      <td style="font-family:monospace;font-size:.82rem">${b.id}</td>
+      <td>${b.user}</td>
+      <td style="font-weight:500">${b.center}</td>
+      <td>${b.checkIn}</td>
+      <td>${b.persons}</td>
+      <td><span class="status-badge status-${b.status.toLowerCase()}">${b.status}</span></td>
+      <td>
+        <button class="btn btn-sm btn-outline" onclick="toast('Status updated')">✅ Confirm</button>
+        <button class="btn btn-sm" style="background:#fee2e2;color:#ef4444" onclick="toast('Cancelled')">❌</button>
+      </td>
+    </tr>`).join('');
+}
+
+function renderOrdersAdmin() {
+  const orders = [{id:'ORD128',user:'sara@test.tn',amount:245,type:'SALE',status:'DELIVERED'},
+    {id:'ORD127',user:'ahmed@test.tn',amount:89,type:'RENTAL',status:'PROCESSING'},
+    {id:'ORD126',user:'maria@test.tn',amount:425,type:'SALE',status:'PENDING'}];
+  document.getElementById('ordersTable').innerHTML = orders.map(o=>`
+    <tr>
+      <td style="font-family:monospace;font-size:.82rem">${o.id}</td>
+      <td>${o.user}</td>
+      <td style="font-weight:700;color:var(--green)">${o.amount} TND</td>
+      <td>${o.type}</td>
+      <td><span class="status-badge status-${o.status.toLowerCase()}">${o.status}</span></td>
+      <td><button class="btn btn-sm btn-outline" onclick="toast('Status updated')">Update</button></td>
+    </tr>`).join('');
+}
+
+function renderUsersAdmin() {
+  const users = [{name:'Admin CampingTN',email:'admin@camping.tn',role:'ADMIN',gov:'Tunis',active:true},
+    {name:'Ahmed Ben Ali',email:'ahmed@test.tn',role:'USER',gov:'Sousse',active:true},
+    {name:'Sara Trabelsi',email:'sara@test.tn',role:'USER',gov:'Bizerte',active:true}];
+  document.getElementById('usersTable').innerHTML = users.map(u=>`
+    <tr>
+      <td style="font-weight:600">👤 ${u.name}</td>
+      <td>${u.email}</td>
+      <td><span class="tag ${u.role==='ADMIN'?'tag-sale':'tag-rental'}">${u.role}</span></td>
+      <td>${u.gov}</td>
+      <td><span class="status-badge ${u.active?'status-confirmed':'status-cancelled'}">${u.active?'Active':'Suspended'}</span></td>
+      <td>
+        ${u.role!=='ADMIN'?`<button class="btn btn-sm btn-outline" onclick="toast('User promoted to Admin')">⬆️ Admin</button>`:''}
+        <button class="btn btn-sm" style="background:#fee2e2;color:#ef4444" onclick="toast('User suspended')">🚫</button>
+      </td>
+    </tr>`).join('');
+}
+
+function renderMaintenance() {
+  document.getElementById('maintenanceTable').innerHTML = maintenanceTasks.map(t=>`
+    <tr>
+      <td style="font-weight:600">${t.title}</td>
+      <td>${t.category?.replace('_',' ')}</td>
+      <td><span class="status-badge priority-${t.priority.toLowerCase()}">${t.priority}</span></td>
+      <td>${t.assignedTo}</td>
+      <td><span class="status-badge status-${t.status.toLowerCase().replace('_','-')}">${t.status.replace('_',' ')}</span></td>
+      <td>${t.dueDate||'—'}</td>
+    </tr>`).join('');
+}
+
+function renderAnalytics() {
+  // Regional centers chart
+  const regionData = [{r:'Nord-Ouest',n:7,c:'#2d6a4f'},{r:'Centre-Est',n:5,c:'#0077b6'},{r:'Nord-Est',n:3,c:'#52b788'},{r:'Sud-Est',n:3,c:'#e76f51'},{r:'Centre-Ouest',n:2,c:'#e9c46a'},{r:'District-Tunis',n:2,c:'#8b5cf6'},{r:'Sud-Ouest',n:1,c:'#f59e0b'}];
+  document.getElementById('analyticsRegion').innerHTML = regionData.map(d=>`
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem">
+      <div style="width:14px;height:14px;border-radius:3px;background:${d.c};flex-shrink:0"></div>
+      <div style="flex:1;font-size:.85rem">${d.r}</div>
+      <div style="flex:2;background:#f3f4f6;border-radius:4px;height:16px;overflow:hidden">
+        <div style="width:${d.n/7*100}%;background:${d.c};height:100%;border-radius:4px;transition:.5s"></div>
+      </div>
+      <div style="font-weight:700;font-size:.9rem;min-width:20px;text-align:right">${d.n}</div>
+    </div>`).join('');
+
+  // Capacity
+  const capData = [{t:'Building',v:787,c:'#2d6a4f'},{t:'Tent',v:1110,c:'#52b788'},{t:'Total',v:1897,c:'#e9c46a'}];
+  document.getElementById('analyticsCapacity').innerHTML = capData.map(d=>`
+    <div style="margin-bottom:1rem">
+      <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.3rem">
+        <span>${d.t}</span><span style="font-weight:700">${d.v.toLocaleString()}</span>
+      </div>
+      <div style="background:#f3f4f6;border-radius:6px;height:20px;overflow:hidden">
+        <div style="width:${d.v/1897*100}%;background:${d.c};height:100%;border-radius:6px"></div>
+      </div>
+    </div>`).join('');
+
+  // Evolution
+  const evoYears = ['2002','2005','2008','2011','2014','2017'];
+  const evoCounts = [23,23,24,26,26,22];
+  const maxV = 30;
+  document.getElementById('analyticsEvolution').innerHTML = `
+    <div style="display:flex;align-items:flex-end;gap:.5rem;height:120px;margin-bottom:.5rem">
+      ${evoYears.map((y,i)=>`
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.25rem">
+          <div style="font-size:.72rem;color:var(--text-muted)">${evoCounts[i]}</div>
+          <div style="width:100%;background:var(--green);border-radius:4px 4px 0 0;height:${evoCounts[i]/maxV*100}px;transition:.5s"></div>
+        </div>`).join('')}
+    </div>
+    <div style="display:flex;gap:.5rem">
+      ${evoYears.map(y=>`<div style="flex:1;text-align:center;font-size:.72rem;color:var(--text-muted)">${y}</div>`).join('')}
+    </div>
+    <p style="font-size:.78rem;color:var(--text-muted);margin-top:.75rem">Source: Official Tunisia camping survey data 2002–2017</p>`;
+}
+
+function openAddTask() {
+  const title = prompt('Task title:');
+  if (!title) return;
+  const priority = prompt('Priority (LOW/MEDIUM/HIGH/CRITICAL):','MEDIUM');
+  const category = prompt('Category (WEBSITE/DATABASE/ML_MODEL/INFRASTRUCTURE/CONTENT):','WEBSITE');
+  const assigned = prompt('Assign to:','Dev Team');
+  maintenanceTasks.push({id:'t'+Date.now(),title,category:category||'WEBSITE',priority:priority||'MEDIUM',assignedTo:assigned||'Unassigned',status:'OPEN',dueDate:''});
+  renderMaintenance();
+  toast('Maintenance task created ✅');
+}
+
+// ==================== PROFILE ====================
+function loadProfile() {
+  if (!currentUser) { showSection('home'); openAuthModal(); return; }
+  document.getElementById('profileAvatar').textContent = currentUser.firstName?.[0]?.toUpperCase()||'👤';
+  document.getElementById('profileName').textContent = currentUser.firstName + ' ' + (currentUser.lastName||'');
+  document.getElementById('profileEmail').textContent = currentUser.email;
+  document.getElementById('profileGov').textContent = currentUser.governorate ? '📍 '+currentUser.governorate : '';
+}
+
+function switchTab(btn, tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+}
+
+// ==================== TOAST ====================
+function toast(msg, type='success') {
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  const icons = {success:'✅',error:'❌',warning:'⚠️'};
+  el.innerHTML = `<span>${icons[type]||'ℹ️'}</span><span>${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(100%)';el.style.transition='.3s ease';setTimeout(()=>el.remove(),300);},3500);
+}
+
+// ==================== INIT ====================
+window.addEventListener('load', () => {
+  // Set today as default date
+  document.getElementById('budgetDate').value = new Date().toISOString().split('T')[0];
+  updateCartBadge();
+  updateNavForUser();
+  // Preload first section data
+  loadCampingCenters();
+});
+</script>
+</body>
+</html>

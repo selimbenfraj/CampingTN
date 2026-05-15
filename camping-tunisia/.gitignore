@@ -1,0 +1,30 @@
+target/
+*.jar
+*.war
+*.class
+.mvn/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pkl
+venv/
+.env
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# MongoDB
+/data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/
