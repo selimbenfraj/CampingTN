@@ -1,11 +1,14 @@
 package com.camping.service;
 
+import com.camping.dto.AdminUserDTO;
 import com.camping.model.*;
 import com.camping.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +21,7 @@ public class AdminService {
     private final ProductRepository productRepo;
     private final BudgetPredictionRepository predictionRepo;
     private final MaintenanceTaskRepository maintenanceRepo;
+    private final PasswordEncoder passwordEncoder;
 
     public Map<String, Object> getFullDashboard() {
         Map<String, Object> dash = new LinkedHashMap<>();
@@ -64,22 +68,130 @@ public class AdminService {
         return dash;
     }
 
-    public List<User> getAllUsers() {
-        return userRepo.findAll();
+    public List<AdminUserDTO.UserResponse> getAllUsers() {
+        return userRepo.findAll().stream()
+                .map(this::toUserResponse)
+                .collect(Collectors.toList());
     }
 
-    public User updateUserStatus(String id, boolean active) {
+    public AdminUserDTO.UserResponse getUser(String id) {
+        return userRepo.findById(id)
+                .map(this::toUserResponse)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public AdminUserDTO.UserResponse createUser(AdminUserDTO.UserRequest request) {
+        if (userRepo.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Email already registered");
+        }
+        if (request.getPassword() == null || request.getPassword().isBlank()) {
+            throw new RuntimeException("Password is required");
+        }
+        if (request.getPassword().length() < 6) {
+            throw new RuntimeException("Password must contain at least 6 characters");
+        }
+
+        User user = User.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .phone(request.getPhone())
+                .address(request.getAddress())
+                .governorate(request.getGovernorate())
+                .city(request.getCity())
+                .roles(normalizeRoles(request.getRoles()))
+                .active(request.isActive())
+                .build();
+
+        return toUserResponse(userRepo.save(user));
+    }
+
+    public AdminUserDTO.UserResponse updateUser(String id, AdminUserDTO.UserRequest request) {
+        return userRepo.findById(id).map(user -> {
+            userRepo.findByEmail(request.getEmail()).ifPresent(existing -> {
+                if (!existing.getId().equals(id)) {
+                    throw new RuntimeException("Email already registered");
+                }
+            });
+
+            user.setFirstName(request.getFirstName());
+            user.setLastName(request.getLastName());
+            user.setEmail(request.getEmail());
+            user.setPhone(request.getPhone());
+            user.setAddress(request.getAddress());
+            user.setGovernorate(request.getGovernorate());
+            user.setCity(request.getCity());
+            user.setActive(request.isActive());
+            user.setRoles(normalizeRoles(request.getRoles()));
+            if (request.getPassword() != null && !request.getPassword().isBlank()) {
+                if (request.getPassword().length() < 6) {
+                    throw new RuntimeException("Password must contain at least 6 characters");
+                }
+                user.setPassword(passwordEncoder.encode(request.getPassword()));
+            }
+            user.setUpdatedAt(LocalDateTime.now());
+            return toUserResponse(userRepo.save(user));
+        }).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public AdminUserDTO.UserResponse updateUserStatus(String id, boolean active) {
         return userRepo.findById(id).map(u -> {
             u.setActive(active);
-            return userRepo.save(u);
+            u.setUpdatedAt(LocalDateTime.now());
+            return toUserResponse(userRepo.save(u));
         }).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    public User promoteToAdmin(String id) {
+    public AdminUserDTO.UserResponse promoteToAdmin(String id) {
         return userRepo.findById(id).map(u -> {
             u.getRoles().add("ADMIN");
-            return userRepo.save(u);
+            u.setUpdatedAt(LocalDateTime.now());
+            return toUserResponse(userRepo.save(u));
         }).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public void deleteUser(String id) {
+        User user = userRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        if (user.getRoles() != null && user.getRoles().contains("ADMIN")) {
+            long adminCount = userRepo.findAll().stream()
+                    .filter(u -> u.getRoles() != null && u.getRoles().contains("ADMIN"))
+                    .count();
+            if (adminCount <= 1) {
+                throw new RuntimeException("Cannot delete the last admin user");
+            }
+        }
+        userRepo.deleteById(id);
+    }
+
+    private Set<String> normalizeRoles(Set<String> roles) {
+        if (roles == null || roles.isEmpty()) {
+            return new HashSet<>(Set.of("USER"));
+        }
+        return roles.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(r -> !r.isBlank())
+                .map(String::toUpperCase)
+                .collect(Collectors.toCollection(HashSet::new));
+    }
+
+    private AdminUserDTO.UserResponse toUserResponse(User user) {
+        return AdminUserDTO.UserResponse.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .address(user.getAddress())
+                .governorate(user.getGovernorate())
+                .city(user.getCity())
+                .roles(user.getRoles())
+                .active(user.isActive())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
+                .build();
     }
 
     // Maintenance Tasks
