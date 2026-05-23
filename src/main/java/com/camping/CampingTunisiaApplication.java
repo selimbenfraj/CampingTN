@@ -1,0 +1,13 @@
+package com.camping;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+@SpringBootApplication
+@EnableScheduling
+public class CampingTunisiaApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(CampingTunisiaApplication.class, args);
+    }
+}

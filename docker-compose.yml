@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # ─── MongoDB ───────────────────────────────────────────────────────────────
+  mongodb:
+    image: mongo:7.0
+    container_name: camping_mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: camping_admin
+      MONGO_INITDB_ROOT_PASSWORD: camping_secret_2024
+      MONGO_INITDB_DATABASE: camping_tunisia
+    volumes:
+      - mongodb_data:/data/db
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - camping_network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/camping_tunisia --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── ML API (Python Flask) ─────────────────────────────────────────────────
+  ml-api:
+    build:
+      context: ./ml-notebooks/ml-api
+      dockerfile: Dockerfile
+    container_name: camping_ml_api
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./ml-notebooks/ml-api:/app
+    networks:
+      - camping_network
+    healthcheck:
+      test: curl -f http://localhost:5000/health || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ─── Spring Boot Application ───────────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: camping_springboot
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://camping_admin:camping_secret_2024@mongodb:27017/camping_tunisia?authSource=admin
+      SPRING_DATA_MONGODB_DATABASE: camping_tunisia
+      ML_API_URL: http://ml-api:5000
+      JWT_SECRET: camping-tunisia-super-secret-key-for-jwt-2024-production-secure
+      JWT_EXPIRATION: 86400000
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      ml-api:
+        condition: service_healthy
+    networks:
+      - camping_network
+
+  # ─── Mongo Express (Admin UI) ──────────────────────────────────────────────
+  mongo-express:
+    image: mongo-express:1.0.2
+    container_name: camping_mongo_express
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: camping_admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: camping_secret_2024
+      ME_CONFIG_MONGODB_URL: mongodb://camping_admin:camping_secret_2024@mongodb:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin123
+    depends_on:
+      - mongodb
+    networks:
+      - camping_network
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  camping_network:
+    driver: bridge
