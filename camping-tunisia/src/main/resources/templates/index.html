@@ -9,36 +9,41 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root {
-  --green: #2d6a4f;
-  --green-light: #52b788;
-  --green-pale: #d8f3dc;
-  --sand: #e9c46a;
-  --sand-dark: #f4a261;
-  --ocean: #023e8a;
-  --ocean-light: #0077b6;
-  --ocean-pale: #caf0f8;
-  --dark: #1a1a2e;
-  --dark2: #16213e;
-  --text: #2d2d2d;
-  --text-muted: #6b7280;
-  --bg: #f8fffe;
+  --green: #31513f;
+  --green-light: #5f7f65;
+  --green-pale: #e2eadf;
+  --sand: #c8a96a;
+  --sand-dark: #9f7444;
+  --ocean: #405b60;
+  --ocean-light: #607f7d;
+  --ocean-pale: #dbe7e3;
+  --dark: #1f241f;
+  --dark2: #2d322a;
+  --text: #252821;
+  --text-muted: #687064;
+  --bg: #f3f0e8;
   --white: #ffffff;
-  --border: #e5e7eb;
-  --radius: 16px;
-  --shadow: 0 4px 24px rgba(0,0,0,0.08);
-  --shadow-lg: 0 12px 48px rgba(0,0,0,0.14);
-  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  --border: #ded8ca;
+  --radius: 8px;
+  --shadow: 0 8px 24px rgba(49,44,34,0.08);
+  --shadow-lg: 0 18px 44px rgba(49,44,34,0.14);
+  --transition: all 0.2s ease;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
-body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; }
+body {
+  font-family:'Inter',sans-serif;
+  background:linear-gradient(180deg,#f6f3eb 0%,#eee9dc 100%);
+  color:var(--text);
+  overflow-x:hidden;
+}
 
 /* NAV */
 nav {
   position:fixed; top:0; left:0; right:0; z-index:1000;
-  background:rgba(255,255,255,0.92);
-  backdrop-filter:blur(20px);
+  background:rgba(246,243,235,0.94);
+  backdrop-filter:blur(14px);
   border-bottom:1px solid var(--border);
   padding:0 2rem;
   height:70px;
@@ -46,17 +51,26 @@ nav {
 }
 .nav-logo {
   display:flex; align-items:center; gap:.75rem;
-  font-size:1.4rem; font-weight:800; color:var(--green);
+  font-size:1.2rem; font-weight:800; color:var(--green);
   text-decoration:none;
 }
-.nav-logo .icon { font-size:1.8rem; }
+.nav-logo .icon {
+  width:28px; height:28px; border-radius:50%;
+  background:linear-gradient(135deg,var(--green),var(--sand-dark));
+  display:inline-block; position:relative; font-size:0; overflow:hidden;
+}
+.nav-logo .icon::after {
+  content:""; position:absolute; left:8px; top:7px;
+  width:12px; height:12px; border-left:2px solid #fff; border-bottom:2px solid #fff;
+  transform:rotate(-45deg);
+}
 .nav-links { display:flex; align-items:center; gap:.5rem; }
 .nav-links a {
   padding:.5rem 1rem; border-radius:10px; text-decoration:none;
   color:var(--text-muted); font-weight:500; font-size:.9rem;
   transition:var(--transition);
 }
-.nav-links a:hover, .nav-links a.active { color:var(--green); background:var(--green-pale); }
+.nav-links a:hover, .nav-links a.active { color:var(--green); background:rgba(49,81,63,.1); }
 .nav-actions { display:flex; gap:.75rem; align-items:center; }
 .btn {
   display:inline-flex; align-items:center; gap:.5rem;
@@ -65,8 +79,8 @@ nav {
   border:none; text-decoration:none;
 }
 .btn-primary { background:var(--green); color:#fff; }
-.btn-primary:hover { background:#1b4332; transform:translateY(-1px); box-shadow:0 4px 16px rgba(45,106,79,.4); }
-.btn-outline { background:transparent; color:var(--green); border:2px solid var(--green); }
+.btn-primary:hover { background:#263f31; transform:translateY(-1px); box-shadow:0 6px 18px rgba(49,81,63,.25); }
+.btn-outline { background:rgba(255,255,255,.45); color:var(--green); border:1px solid rgba(49,81,63,.35); }
 .btn-outline:hover { background:var(--green); color:#fff; }
 .btn-sand { background:var(--sand-dark); color:#fff; }
 .btn-sand:hover { background:#e76f51; transform:translateY(-1px); }
@@ -81,15 +95,17 @@ nav {
 
 /* HERO */
 .hero {
-  position:relative; min-height:100vh;
-  background:linear-gradient(135deg, #0d1b2a 0%, #1b4332 50%, #0d1b2a 100%);
+  position:relative; min-height:92vh;
+  background:#1f241f;
   display:flex; align-items:center; justify-content:center; text-align:center;
   overflow:hidden;
 }
 .hero-bg {
   position:absolute; inset:0;
-  background:url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=1400&q=80') center/cover;
-  opacity:.25;
+  background:
+    linear-gradient(90deg,rgba(31,36,31,.88),rgba(31,36,31,.58),rgba(74,57,35,.72)),
+    url('https://images.unsplash.com/photo-1475483768296-6163e08872a1?w=1600&q=80') center/cover;
+  opacity:1;
 }
 .hero-content {
   position:relative; z-index:2;
@@ -97,17 +113,17 @@ nav {
 }
 .hero-badge {
   display:inline-flex; align-items:center; gap:.5rem;
-  background:rgba(255,255,255,0.1); backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.2);
-  padding:.5rem 1.2rem; border-radius:50px; color:#a7f3d0;
-  font-size:.85rem; font-weight:600; margin-bottom:1.5rem;
+  background:rgba(246,243,235,0.12); backdrop-filter:blur(10px);
+  border:1px solid rgba(246,243,235,.22);
+  padding:.5rem 1rem; border-radius:999px; color:#e7dfcb;
+  font-size:.82rem; font-weight:600; margin-bottom:1.4rem;
 }
 .hero h1 {
   font-family:'Playfair Display',serif;
   font-size:clamp(2.5rem,6vw,4.5rem);
   color:#fff; line-height:1.1; margin-bottom:1.5rem;
 }
-.hero h1 span { color:var(--sand); }
+.hero h1 span { color:#d8bb7a; }
 .hero p { color:rgba(255,255,255,.75); font-size:1.15rem; margin-bottom:2.5rem; line-height:1.7; }
 .hero-actions { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
 .hero-stats {
@@ -115,7 +131,7 @@ nav {
   display:flex; gap:3rem; z-index:2;
 }
 .hero-stat { text-align:center; color:#fff; }
-.hero-stat .num { font-size:2rem; font-weight:800; color:var(--sand); }
+.hero-stat .num { font-size:2rem; font-weight:800; color:#d8bb7a; }
 .hero-stat .label { font-size:.8rem; opacity:.7; }
 .scroll-indicator {
   position:absolute; bottom:1.5rem; left:50%; transform:translateX(-50%);
@@ -172,7 +188,16 @@ nav {
   width:100%; height:200px; object-fit:cover;
   background:linear-gradient(135deg, var(--green-pale), var(--ocean-pale));
   display:flex; align-items:center; justify-content:center;
-  font-size:4rem;
+  font-size:0;
+  position:relative;
+}
+.card-img::after {
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,0),rgba(31,36,31,.18));
+}
+.card-img.forest-img { background:linear-gradient(135deg,#dfe8da,#879b78); }
+.card-img.coastal-img { background:linear-gradient(135deg,#dbe7e3,#789494); }
+.card-img.desert-img { background:linear-gradient(135deg,#ead9b8,#b58a58); }
 }
 .card-body { padding:1.5rem; }
 .card-badge {
@@ -287,8 +312,15 @@ nav {
 .product-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); }
 .product-img {
   height:180px; background:linear-gradient(135deg, #f0fdf4, #e0f2fe);
-  display:flex; align-items:center; justify-content:center; font-size:3.5rem;
+  display:flex; align-items:center; justify-content:center; font-size:2.6rem;
   position:relative;
+  color:var(--green);
+}
+.product-img i {
+  width:76px; height:76px; border-radius:50%;
+  background:rgba(255,255,255,.58);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(49,81,63,.12);
 }
 .product-badges {
   position:absolute; top:.75rem; left:.75rem; display:flex; gap:.4rem;
@@ -338,7 +370,7 @@ nav {
 .cart-item-img {
   width:60px; height:60px; background:var(--bg);
   border-radius:10px; display:flex; align-items:center; justify-content:center;
-  font-size:1.8rem; flex-shrink:0;
+  font-size:1.2rem; color:var(--green); flex-shrink:0;
 }
 .cart-item-info { flex:1; }
 .cart-item-info h4 { font-size:.9rem; font-weight:600; }
@@ -449,6 +481,12 @@ tr:hover td { background:#fafafa; }
   border-left:4px solid var(--green);
   min-width:280px;
 }
+.toast-mark {
+  width:9px; height:9px; border-radius:50%;
+  background:var(--green); flex:0 0 auto;
+}
+.toast.error .toast-mark { background:#b42318; }
+.toast.warning .toast-mark { background:var(--sand-dark); }
 .toast.error { border-color:#ef4444; }
 .toast.warning { border-color:var(--sand-dark); }
 @keyframes toastIn { from{opacity:0;transform:translateX(100%)} to{opacity:1;transform:translateX(0)} }
@@ -543,8 +581,8 @@ footer .footer-links a:hover { color:var(--green-light); }
 <div class="cart-overlay" id="cartOverlay" onclick="if(event.target===this) toggleCart()">
   <div class="cart-panel">
     <div class="cart-header">
-      <h3>🛒 My Cart</h3>
-      <button class="btn btn-sm" onclick="toggleCart()">✕</button>
+      <h3>Cart</h3>
+      <button class="btn btn-sm" onclick="toggleCart()">Close</button>
     </div>
     <div class="cart-items" id="cartItems"></div>
     <div class="cart-footer">
@@ -552,7 +590,7 @@ footer .footer-links a:hover { color:var(--green-light); }
         <span>Total</span>
         <span id="cartTotal">0 TND</span>
       </div>
-      <button class="btn btn-primary w-100" onclick="checkout()">Checkout →</button>
+      <button class="btn btn-primary w-100" onclick="checkout()">Checkout</button>
     </div>
   </div>
 </div>
@@ -566,6 +604,10 @@ footer .footer-links a:hover { color:var(--green-light); }
         <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:1rem">
           <div class="form-group"><label>First Name</label><input id="regFirst" placeholder="Ahmed"></div>
           <div class="form-group"><label>Last Name</label><input id="regLast" placeholder="Ben Ali"></div>
+        </div>
+        <div class="form-group mt-2">
+          <label>Admin code (optional)</label>
+          <input id="regAdminCode" type="password" placeholder="Enter code to create an admin account">
         </div>
       </div>
       <div class="form-group"><label>Email</label><input id="authEmail" type="email" placeholder="your@email.com"></div>
@@ -599,7 +641,7 @@ footer .footer-links a:hover { color:var(--green-light); }
 <!-- BOOK MODAL -->
 <div class="modal-overlay" id="bookModal">
   <div class="modal">
-    <h2>📅 Book Camping Spot</h2>
+    <h2>Book a Stay</h2>
     <div class="modal-form">
       <div class="form-group"><label>Camping Center</label><input id="bookCenter" readonly></div>
       <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:1rem">
@@ -625,22 +667,22 @@ footer .footer-links a:hover { color:var(--green-light); }
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo" onclick="showSection('home')">
-    <span class="icon">⛺</span>CampingTN
+    <span class="icon"></span>CampingTN
   </a>
   <div class="nav-links">
     <a href="#" onclick="showSection('home')" id="nav-home" class="active">Home</a>
     <a href="#" onclick="showSection('explore')" id="nav-explore">Explore</a>
-    <a href="#" onclick="showSection('budget')" id="nav-budget">Budget AI</a>
+    <a href="#" onclick="showSection('budget')" id="nav-budget">Budget</a>
     <a href="#" onclick="showSection('shop')" id="nav-shop">Shop</a>
     <a href="#" onclick="showSection('admin')" id="nav-admin" class="hidden">Admin</a>
   </div>
   <div class="nav-actions">
     <div style="position:relative">
-      <button class="btn btn-outline btn-sm" onclick="toggleCart()">🛒 Cart <span id="cartBadge" class="cart-count hidden">0</span></button>
+      <button class="btn btn-outline btn-sm" onclick="toggleCart()"><i class="fas fa-bag-shopping"></i> Cart <span id="cartBadge" class="cart-count hidden">0</span></button>
     </div>
     <button class="btn btn-primary btn-sm" id="authBtn" onclick="openAuthModal()">Sign In</button>
     <div id="userMenu" class="hidden">
-      <button class="btn btn-outline btn-sm" onclick="showSection('profile')">👤 <span id="userFirstName"></span></button>
+      <button class="btn btn-outline btn-sm" onclick="showSection('profile')"><i class="fas fa-user"></i> <span id="userFirstName"></span></button>
       <button class="btn btn-sm" onclick="logout()" style="background:#fee2e2;color:#ef4444">Sign Out</button>
     </div>
   </div>
@@ -651,43 +693,43 @@ footer .footer-links a:hover { color:var(--green-light); }
   <div class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content">
-      <div class="hero-badge">🇹🇳 Tunisia's #1 Smart Camping Platform</div>
-      <h1>Discover the Wild Beauty<br>of <span>Tunisia's Nature</span></h1>
-      <p>AI-powered budget predictions, 22+ certified camping centers across Tunisia,<br>complete gear shop and expert weather guidance for your perfect adventure.</p>
+      <div class="hero-badge">Forest, desert and coast stays in Tunisia</div>
+      <h1>Plan a grounded<br><span>camping trip</span></h1>
+      <p>Explore camping centers, estimate your trip budget, and prepare the gear you need without leaving the platform.</p>
       <div class="hero-actions">
-        <button class="btn btn-primary btn-lg" onclick="showSection('explore')">🗺️ Explore Centers</button>
-        <button class="btn btn-lg" style="background:rgba(255,255,255,.15);color:#fff;border:2px solid rgba(255,255,255,.3)" onclick="showSection('budget')">🤖 Get Budget Estimate</button>
+        <button class="btn btn-primary btn-lg" onclick="showSection('explore')"><i class="fas fa-map-location-dot"></i> Explore Centers</button>
+        <button class="btn btn-lg" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)" onclick="showSection('budget')"><i class="fas fa-calculator"></i> Estimate Budget</button>
       </div>
     </div>
     <div class="hero-stats">
       <div class="hero-stat"><div class="num">22+</div><div class="label">Camping Centers</div></div>
       <div class="hero-stat"><div class="num">7</div><div class="label">Regions</div></div>
       <div class="hero-stat"><div class="num">2000+</div><div class="label">Total Capacity</div></div>
-      <div class="hero-stat"><div class="num">100%</div><div class="label">AI-Powered</div></div>
+      <div class="hero-stat"><div class="num">100%</div><div class="label">Trip Tools</div></div>
     </div>
   </div>
 
   <!-- Features -->
   <div class="features-grid">
     <div class="feature-card" onclick="showSection('explore')">
-      <div class="feature-icon icon-green">🏕️</div>
-      <h3>Explore Camping Centers</h3>
+      <div class="feature-icon icon-green"><i class="fas fa-campground"></i></div>
+      <h3>Camping Centers</h3>
       <p>Browse 22+ official camping centers across all 7 Tunisian regions — forest, coastal, and desert.</p>
     </div>
     <div class="feature-card" onclick="showSection('budget')">
-      <div class="feature-icon icon-sand">🤖</div>
-      <h3>AI Budget Planner</h3>
-      <p>Get instant budget predictions with weather data, equipment lists, and seasonal tips.</p>
+      <div class="feature-icon icon-sand"><i class="fas fa-calculator"></i></div>
+      <h3>Budget Planner</h3>
+      <p>Estimate costs with weather context, equipment lists, and seasonal notes.</p>
     </div>
     <div class="feature-card" onclick="showSection('shop')">
-      <div class="feature-icon icon-ocean">🛒</div>
+      <div class="feature-icon icon-ocean"><i class="fas fa-bag-shopping"></i></div>
       <h3>Gear Shop & Rental</h3>
       <p>Buy or rent premium camping equipment tailored to your destination and conditions.</p>
     </div>
     <div class="feature-card" onclick="showSection('admin')">
-      <div class="feature-icon icon-red">⚙️</div>
-      <h3>Admin Dashboard</h3>
-      <p>Full platform management — bookings, orders, users, maintenance, and analytics.</p>
+      <div class="feature-icon icon-red"><i class="fas fa-sliders"></i></div>
+      <h3>Management</h3>
+      <p>Manage bookings, orders, users, content and maintenance.</p>
     </div>
   </div>
 
@@ -697,37 +739,31 @@ footer .footer-links a:hover { color:var(--green-light); }
     <p class="text-center text-muted mb-3">Based on 2002–2017 official survey data</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem">
       <div style="background:#fff;border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);text-align:center;border-top:4px solid var(--green)">
-        <div style="font-size:2rem;margin-bottom:.5rem">🌲</div>
         <div style="font-weight:700">Nord-Ouest</div>
         <div style="font-size:1.5rem;font-weight:900;color:var(--green)">7</div>
         <div style="font-size:.8rem;color:var(--text-muted)">Forest Centers</div>
       </div>
       <div style="background:#fff;border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);text-align:center;border-top:4px solid var(--ocean-light)">
-        <div style="font-size:2rem;margin-bottom:.5rem">🌊</div>
         <div style="font-weight:700">Centre-Est</div>
         <div style="font-size:1.5rem;font-weight:900;color:var(--ocean-light)">5</div>
         <div style="font-size:.8rem;color:var(--text-muted)">Coastal Centers</div>
       </div>
       <div style="background:#fff;border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);text-align:center;border-top:4px solid var(--sand-dark)">
-        <div style="font-size:2rem;margin-bottom:.5rem">🏜️</div>
         <div style="font-weight:700">Sud-Ouest</div>
         <div style="font-size:1.5rem;font-weight:900;color:var(--sand-dark)">1</div>
         <div style="font-size:.8rem;color:var(--text-muted)">Desert Centers</div>
       </div>
       <div style="background:#fff;border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);text-align:center;border-top:4px solid #8b5cf6">
-        <div style="font-size:2rem;margin-bottom:.5rem">🏕️</div>
         <div style="font-weight:700">Nord-Est</div>
         <div style="font-size:1.5rem;font-weight:900;color:#8b5cf6">3</div>
         <div style="font-size:.8rem;color:var(--text-muted)">Mixed Centers</div>
       </div>
       <div style="background:#fff;border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);text-align:center;border-top:4px solid #ef4444">
-        <div style="font-size:2rem;margin-bottom:.5rem">🌅</div>
         <div style="font-weight:700">Sud-Est</div>
         <div style="font-size:1.5rem;font-weight:900;color:#ef4444">3</div>
         <div style="font-size:.8rem;color:var(--text-muted)">Coastal + Desert</div>
       </div>
       <div style="background:#fff;border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);text-align:center;border-top:4px solid #f59e0b">
-        <div style="font-size:2rem;margin-bottom:.5rem">🏙️</div>
         <div style="font-weight:700">District Tunis</div>
         <div style="font-size:1.5rem;font-weight:900;color:#f59e0b">2</div>
         <div style="font-size:.8rem;color:var(--text-muted)">Urban Centers</div>
@@ -736,20 +772,20 @@ footer .footer-links a:hover { color:var(--green-light); }
   </div>
 
   <footer>
-    <div class="logo">⛺ CampingTN</div>
-    <p>Smart Camping Platform for Tunisia — Powered by AI & Official 2017 Data</p>
+    <div class="logo"> CampingTN</div>
+    <p>Camping stays, equipment and trip planning for Tunisia</p>
     <div class="footer-links">
       <a href="#">About</a><a href="#">Contact</a><a href="#">Privacy</a><a href="#">Terms</a>
     </div>
-    <p style="margin-top:.5rem;font-size:.8rem">© 2024 CampingTN. Built with Spring Boot + MongoDB.</p>
+    <p style="margin-top:.5rem;font-size:.8rem">© 2024 CampingTN. CampingTN.</p>
   </footer>
 </section>
 
 <!-- EXPLORE -->
 <section class="section" id="explore">
   <div class="page-header">
-    <h1>🗺️ Explore Camping Centers</h1>
-    <p>Discover Tunisia's 22+ official camping centers across 7 regions</p>
+    <h1>Camping Centers</h1>
+    <p>Find forest, coastal and desert sites across Tunisia</p>
   </div>
 
   <div class="filter-bar">
@@ -758,9 +794,9 @@ footer .footer-links a:hover { color:var(--green-light); }
       <input placeholder="Search by name or region..." oninput="filterCenters()" id="searchInput">
     </div>
     <button class="filter-btn active" onclick="setFilter(this,'all')">All</button>
-    <button class="filter-btn" onclick="setFilter(this,'foréstiére')">🌲 Forest</button>
-    <button class="filter-btn" onclick="setFilter(this,'littoral')">🌊 Coastal</button>
-    <button class="filter-btn" onclick="setFilter(this,'désertique')">🏜️ Desert</button>
+    <button class="filter-btn" onclick="setFilter(this,'foréstiére')">Forest</button>
+    <button class="filter-btn" onclick="setFilter(this,'littoral')">Coastal</button>
+    <button class="filter-btn" onclick="setFilter(this,'désertique')">Desert</button>
   </div>
 
   <div class="cards-grid" id="campingGrid"></div>
@@ -769,16 +805,16 @@ footer .footer-links a:hover { color:var(--green-light); }
 <!-- BUDGET AI -->
 <section class="section" id="budget">
   <div class="page-header desert">
-    <h1>🤖 AI Budget Planner</h1>
-    <p>Get accurate budget estimates tailored to your destination, group size, and season</p>
+    <h1>Trip Budget</h1>
+    <p>Estimate your stay according to place, group size and season</p>
   </div>
 
   <div class="budget-container">
     <div class="budget-form">
-      <h3 style="margin-bottom:1.5rem;font-size:1.1rem">📋 Trip Details</h3>
+      <h3 style="margin-bottom:1.5rem;font-size:1.1rem">Trip Details</h3>
       <div class="form-grid">
         <div class="form-group">
-          <label>📍 Governorate</label>
+          <label>Governorate</label>
           <select id="budgetGov">
             <option value="">Select...</option>
             <option>Tunis</option><option>Ariana</option><option>Manouba</option>
@@ -791,30 +827,30 @@ footer .footer-links a:hover { color:var(--green-light); }
           </select>
         </div>
         <div class="form-group">
-          <label>🌿 Site Type</label>
+          <label>Site Type</label>
           <select id="budgetType">
-            <option value="FOREST">🌲 Forest</option>
-            <option value="COASTAL">🌊 Coastal</option>
-            <option value="DESERT">🏜️ Desert</option>
+            <option value="FOREST">Forest</option>
+            <option value="COASTAL">Coastal</option>
+            <option value="DESERT">Desert</option>
           </select>
         </div>
         <div class="form-group">
-          <label>👥 Number of Persons</label>
+          <label>Number of Persons</label>
           <input type="number" id="budgetPersons" value="4" min="1" max="50">
         </div>
         <div class="form-group">
-          <label>📅 Number of Days</label>
+          <label>Number of Days</label>
           <input type="number" id="budgetDays" value="3" min="1" max="30">
         </div>
         <div class="form-group">
-          <label>📆 Start Date</label>
+          <label>Start Date</label>
           <input type="date" id="budgetDate">
         </div>
         <div class="form-group">
-          <label>🏠 Accommodation</label>
+          <label>Accommodation</label>
           <select id="budgetAccom">
-            <option value="TENT">⛺ Tent</option>
-            <option value="BUILDING">🏠 Building</option>
+            <option value="TENT">Tent</option>
+            <option value="BUILDING">Building</option>
           </select>
         </div>
       </div>
@@ -825,7 +861,7 @@ footer .footer-links a:hover { color:var(--green-light); }
 
     <div class="budget-result" id="budgetResult">
       <div class="budget-hero">
-        <div style="font-size:.9rem;color:var(--text-muted);margin-bottom:.5rem">Estimated Total Budget</div>
+        <div style="font-size:.9rem;color:var(--text-muted);margin-bottom:.5rem">Estimated Trip Budget</div>
         <div class="amount" id="resultAmount">0 TND</div>
         <div class="range" id="resultRange"></div>
         <div style="margin-top:.75rem;font-size:.85rem;color:var(--text-muted)" id="resultMeta"></div>
@@ -834,28 +870,28 @@ footer .footer-links a:hover { color:var(--green-light); }
       <div id="weatherCard"></div>
       <div id="alertBanner"></div>
 
-      <h4 style="margin-bottom:.75rem">💰 Budget Breakdown</h4>
+      <h4 style="margin-bottom:.75rem">Budget Breakdown</h4>
       <div class="breakdown-grid" id="breakdownGrid"></div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem" class="lists-grid">
         <div>
-          <h4 style="margin-bottom:.75rem;color:#ef4444">🎒 Essential Items</h4>
+          <h4 style="margin-bottom:.75rem;color:#7f1d1d">Essential Items</h4>
           <ul id="essentialList" style="list-style:none;display:flex;flex-direction:column;gap:.4rem"></ul>
         </div>
         <div>
-          <h4 style="margin-bottom:.75rem;color:var(--ocean-light)">✨ Optional Items</h4>
+          <h4 style="margin-bottom:.75rem;color:var(--ocean-light)">Optional Items</h4>
           <ul id="optionalList" style="list-style:none;display:flex;flex-direction:column;gap:.4rem"></ul>
         </div>
       </div>
 
       <div style="margin-top:2rem">
-        <h4 style="margin-bottom:.75rem;color:var(--green)">💡 Tips</h4>
+        <h4 style="margin-bottom:.75rem;color:var(--green)">Tips</h4>
         <div id="tipsList"></div>
       </div>
 
       <div class="d-flex gap-2 mt-3 justify-between" style="flex-wrap:wrap">
-        <button class="btn btn-primary" onclick="showSection('shop')">🛒 Shop Recommended Gear</button>
-        <button class="btn btn-outline" onclick="showSection('explore')">🏕️ Find Camping Centers</button>
+        <button class="btn btn-primary" onclick="showSection('shop')">Shop Recommended Gear</button>
+        <button class="btn btn-outline" onclick="showSection('explore')">Find Camping Centers</button>
       </div>
     </div>
   </div>
@@ -864,8 +900,8 @@ footer .footer-links a:hover { color:var(--green-light); }
 <!-- SHOP -->
 <section class="section" id="shop">
   <div class="page-header ocean-h">
-    <h1>🛒 Camping Gear Shop</h1>
-    <p>Buy or rent premium camping equipment — tailored to your destination</p>
+    <h1>Camping Gear</h1>
+    <p>Buy or rent the equipment you need for forest, coast or desert trips</p>
   </div>
 
   <div class="filter-bar">
@@ -874,12 +910,12 @@ footer .footer-links a:hover { color:var(--green-light); }
       <input placeholder="Search products..." oninput="filterProducts()" id="shopSearch">
     </div>
     <button class="filter-btn active" onclick="setProductFilter(this,'ALL')">All</button>
-    <button class="filter-btn" onclick="setProductFilter(this,'TENT')">⛺ Tents</button>
-    <button class="filter-btn" onclick="setProductFilter(this,'SLEEPING_BAG')">🛏️ Sleeping</button>
-    <button class="filter-btn" onclick="setProductFilter(this,'COOKING')">🍳 Cooking</button>
-    <button class="filter-btn" onclick="setProductFilter(this,'NAVIGATION')">🧭 Navigation</button>
-    <button class="filter-btn" onclick="setProductFilter(this,'SAFETY')">🦺 Safety</button>
-    <button class="filter-btn" onclick="setProductFilter(this,'HYDRATION')">💧 Hydration</button>
+    <button class="filter-btn" onclick="setProductFilter(this,'TENT')">Tents</button>
+    <button class="filter-btn" onclick="setProductFilter(this,'SLEEPING_BAG')">Sleeping</button>
+    <button class="filter-btn" onclick="setProductFilter(this,'COOKING')">Cooking</button>
+    <button class="filter-btn" onclick="setProductFilter(this,'NAVIGATION')">Navigation</button>
+    <button class="filter-btn" onclick="setProductFilter(this,'SAFETY')">Safety</button>
+    <button class="filter-btn" onclick="setProductFilter(this,'HYDRATION')">Hydration</button>
   </div>
 
   <div class="shop-grid" id="shopGrid"></div>
@@ -890,30 +926,30 @@ footer .footer-links a:hover { color:var(--green-light); }
   <div class="admin-layout">
     <div class="admin-sidebar">
       <h3>Main</h3>
-      <div class="admin-nav-item active" onclick="switchAdmin('overview')"><div class="dot"></div>📊 Overview</div>
-      <div class="admin-nav-item" onclick="switchAdmin('bookings')"><div class="dot"></div>📅 Bookings</div>
-      <div class="admin-nav-item" onclick="switchAdmin('orders')"><div class="dot"></div>🛒 Orders</div>
-      <div class="admin-nav-item" onclick="switchAdmin('users')"><div class="dot"></div>👥 Users</div>
+      <div class="admin-nav-item active" onclick="switchAdmin('overview')"><div class="dot"></div> Overview</div>
+      <div class="admin-nav-item" onclick="switchAdmin('bookings')"><div class="dot"></div> Bookings</div>
+      <div class="admin-nav-item" onclick="switchAdmin('orders')"><div class="dot"></div> Orders</div>
+      <div class="admin-nav-item" onclick="switchAdmin('users')"><div class="dot"></div> Users</div>
       <h3 style="margin-top:1rem">Content</h3>
-      <div class="admin-nav-item" onclick="switchAdmin('centers')"><div class="dot"></div>🏕️ Camping Centers</div>
-      <div class="admin-nav-item" onclick="switchAdmin('products')"><div class="dot"></div>📦 Products</div>
+      <div class="admin-nav-item" onclick="switchAdmin('centers')"><div class="dot"></div> Camping Centers</div>
+      <div class="admin-nav-item" onclick="switchAdmin('products')"><div class="dot"></div> Products</div>
       <h3 style="margin-top:1rem">System</h3>
-      <div class="admin-nav-item" onclick="switchAdmin('maintenance')"><div class="dot"></div>🔧 Maintenance</div>
-      <div class="admin-nav-item" onclick="switchAdmin('analytics')"><div class="dot"></div>📈 Analytics</div>
+      <div class="admin-nav-item" onclick="switchAdmin('maintenance')"><div class="dot"></div> Maintenance</div>
+      <div class="admin-nav-item" onclick="switchAdmin('analytics')"><div class="dot"></div> Analytics</div>
     </div>
 
     <div class="admin-content">
       <!-- OVERVIEW -->
       <div class="admin-panel-section active" id="panel-overview">
-        <h2 style="margin-bottom:1.5rem">📊 Dashboard Overview</h2>
+        <h2 style="margin-bottom:1.5rem"> Dashboard Overview</h2>
         <div class="stats-grid" id="adminStats"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem" class="admin-bottom-grid">
           <div class="table-container">
-            <div class="table-header"><h3>⚡ Recent Activity</h3></div>
+            <div class="table-header"><h3> Recent Activity</h3></div>
             <div style="padding:1rem" id="activityFeed"></div>
           </div>
           <div class="table-container">
-            <div class="table-header"><h3>📊 Regional Distribution (2017 Data)</h3></div>
+            <div class="table-header"><h3> Regional Distribution (2017 Data)</h3></div>
             <div style="padding:1rem">
               <div id="regionalChart"></div>
             </div>
@@ -924,7 +960,7 @@ footer .footer-links a:hover { color:var(--green-light); }
       <!-- BOOKINGS -->
       <div class="admin-panel-section" id="panel-bookings">
         <div class="d-flex justify-between align-center mb-3">
-          <h2>📅 Bookings Management</h2>
+          <h2> Bookings Management</h2>
         </div>
         <div class="table-container">
           <div class="table-header">
@@ -942,7 +978,7 @@ footer .footer-links a:hover { color:var(--green-light); }
 
       <!-- ORDERS -->
       <div class="admin-panel-section" id="panel-orders">
-        <h2 class="mb-3">🛒 Orders Management</h2>
+        <h2 class="mb-3"> Orders Management</h2>
         <div class="table-container">
           <div class="table-header"><h3>All Orders</h3></div>
           <div style="overflow-x:auto">
@@ -956,12 +992,15 @@ footer .footer-links a:hover { color:var(--green-light); }
 
       <!-- USERS -->
       <div class="admin-panel-section" id="panel-users">
-        <h2 class="mb-3">👥 User Management</h2>
+        <div class="d-flex justify-between align-center mb-3">
+          <h2> User Management</h2>
+          <button class="btn btn-primary btn-sm" onclick="openUserForm()">+ Add User</button>
+        </div>
         <div class="table-container">
-          <div class="table-header"><h3>Registered Users</h3></div>
+          <div class="table-header"><h3>Registered Users</h3><span id="userCount" style="font-size:.85rem;color:var(--text-muted)"></span></div>
           <div style="overflow-x:auto">
             <table>
-              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Region</th><th>Status</th><th>Actions</th></tr></thead>
+              <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Roles</th><th>Region</th><th>Status</th><th>Actions</th></tr></thead>
               <tbody id="usersTable"></tbody>
             </table>
           </div>
@@ -971,12 +1010,12 @@ footer .footer-links a:hover { color:var(--green-light); }
       <!-- CENTERS ADMIN -->
       <div class="admin-panel-section" id="panel-centers">
         <div class="d-flex justify-between align-center mb-3">
-          <h2>🏕️ Camping Centers</h2>
-          <button class="btn btn-primary btn-sm" onclick="alert('Add center form — connect to API')">+ Add Center</button>
+          <h2> Camping Centers</h2>
+          <button class="btn btn-primary btn-sm" onclick="openCenterForm()">+ Add Center</button>
         </div>
         <div class="table-container">
           <table>
-            <thead><tr><th>Name</th><th>Governorate</th><th>Type</th><th>Capacity</th><th>Rating</th><th>Status</th></tr></thead>
+            <thead><tr><th>Name</th><th>Governorate</th><th>Type</th><th>Capacity</th><th>Rating</th><th>Status</th><th>Actions</th></tr></thead>
             <tbody id="centersTable"></tbody>
           </table>
         </div>
@@ -985,8 +1024,8 @@ footer .footer-links a:hover { color:var(--green-light); }
       <!-- PRODUCTS ADMIN -->
       <div class="admin-panel-section" id="panel-products">
         <div class="d-flex justify-between align-center mb-3">
-          <h2>📦 Products Management</h2>
-          <button class="btn btn-primary btn-sm" onclick="alert('Add product — connect to API')">+ Add Product</button>
+          <h2> Products Management</h2>
+          <button class="btn btn-primary btn-sm" onclick="openProductForm()">+ Add Product</button>
         </div>
         <div class="table-container">
           <table>
@@ -999,7 +1038,7 @@ footer .footer-links a:hover { color:var(--green-light); }
       <!-- MAINTENANCE -->
       <div class="admin-panel-section" id="panel-maintenance">
         <div class="d-flex justify-between align-center mb-3">
-          <h2>🔧 Maintenance Tasks</h2>
+          <h2> Maintenance Tasks</h2>
           <button class="btn btn-primary btn-sm" onclick="openAddTask()">+ New Task</button>
         </div>
         <div class="table-container">
@@ -1012,7 +1051,7 @@ footer .footer-links a:hover { color:var(--green-light); }
 
       <!-- ANALYTICS -->
       <div class="admin-panel-section" id="panel-analytics">
-        <h2 class="mb-3">📈 Analytics & Reports</h2>
+        <h2 class="mb-3"> Analytics & Reports</h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem">
           <div class="table-container" style="padding:1.5rem">
             <h3 style="margin-bottom:1rem">Camping Centers by Region (2017)</h3>
@@ -1036,33 +1075,61 @@ footer .footer-links a:hover { color:var(--green-light); }
 <section class="section" id="profile">
   <div class="profile-container">
     <div class="profile-header">
-      <div class="avatar" id="profileAvatar">👤</div>
+      <div class="avatar" id="profileAvatar"></div>
       <div>
         <h2 id="profileName">User Name</h2>
         <p id="profileEmail" style="opacity:.8"></p>
         <p id="profileGov" style="opacity:.6;font-size:.85rem;margin-top:.3rem"></p>
       </div>
+      <button class="btn btn-outline btn-sm" style="margin-left:auto" onclick="openProfileSettings()">Edit Profile</button>
     </div>
     <div class="profile-tabs">
-      <button class="tab-btn active" onclick="switchTab(this,'tab-bookings')">📅 My Bookings</button>
-      <button class="tab-btn" onclick="switchTab(this,'tab-orders')">🛒 My Orders</button>
-      <button class="tab-btn" onclick="switchTab(this,'tab-predictions')">🤖 Saved Predictions</button>
+      <button class="tab-btn active" onclick="switchTab(this,'tab-bookings')"> Bookings</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-orders')"> Orders</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-predictions')"> Saved Estimates</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-settings')">Profile Settings</button>
     </div>
     <div class="tab-content active" id="tab-bookings">
-      <div id="myBookings"><p class="text-muted">No bookings yet. <a href="#" onclick="showSection('explore')" style="color:var(--green)">Explore camping centers →</a></p></div>
+      <div id="myBookings"><p class="text-muted">No bookings yet. <a href="#" onclick="showSection('explore')" style="color:var(--green)">Explore camping centers</a></p></div>
     </div>
     <div class="tab-content" id="tab-orders">
-      <div id="myOrders"><p class="text-muted">No orders yet. <a href="#" onclick="showSection('shop')" style="color:var(--green)">Visit the shop →</a></p></div>
+      <div id="myOrders"><p class="text-muted">No orders yet. <a href="#" onclick="showSection('shop')" style="color:var(--green)">Visit the shop</a></p></div>
     </div>
     <div class="tab-content" id="tab-predictions">
-      <p class="text-muted">Your saved budget predictions will appear here.</p>
+      <p class="text-muted">Your saved budget estimates will appear here.</p>
+    </div>
+    <div class="tab-content" id="tab-settings">
+      <div class="budget-form" style="margin:0;box-shadow:none">
+        <div class="form-grid">
+          <div class="form-group"><label>First Name</label><input id="profileFirst"></div>
+          <div class="form-group"><label>Last Name</label><input id="profileLast"></div>
+          <div class="form-group"><label>Email</label><input id="profileEmailInput" type="email"></div>
+          <div class="form-group"><label>Phone</label><input id="profilePhone"></div>
+          <div class="form-group">
+            <label>Governorate</label>
+            <select id="profileGovInput">
+              <option value="">Select region...</option>
+              <option>Tunis</option><option>Ariana</option><option>Ben Arous</option><option>Manouba</option>
+              <option>Bizerte</option><option>Nabeul</option><option>Jendouba</option><option>Beja</option>
+              <option>Le Kef</option><option>Siliana</option><option>Sousse</option><option>Monastir</option>
+              <option>Mahdia</option><option>Sfax</option><option>Kairouan</option><option>Kasserine</option>
+              <option>Sidi Bouzid</option><option>GabÃ¨s</option><option>MÃ©denine</option><option>Tataouine</option>
+              <option>Gafsa</option><option>Tozeur</option><option>KÃ©bili</option>
+            </select>
+          </div>
+          <div class="form-group"><label>City</label><input id="profileCity"></div>
+          <div class="form-group"><label>Address</label><input id="profileAddress"></div>
+          <div class="form-group"><label>New password (optional)</label><input id="profilePassword" type="password" placeholder="Leave empty to keep current password"></div>
+        </div>
+        <button class="btn btn-primary mt-3" onclick="saveProfile()">Save Profile</button>
+      </div>
     </div>
   </div>
 </section>
 
 <script>
 // ==================== STATE ====================
-const API = 'http://localhost:8080/api';
+const API = `${window.location.origin}/api`;
 let currentUser = JSON.parse(localStorage.getItem('campingUser') || 'null');
 let cart = JSON.parse(localStorage.getItem('campingCart') || '[]');
 let campingCenters = [];
@@ -1072,6 +1139,51 @@ let activeFilter = 'all';
 let productFilter = 'ALL';
 let authMode = 'login';
 let bookingCenterId = null;
+
+function normalizeRoles(roles) {
+  if (!roles) return [];
+  return Array.isArray(roles) ? roles : Object.values(roles);
+}
+
+function saveCurrentUser(user) {
+  const existingToken = currentUser?.token;
+  currentUser = {...user, roles: normalizeRoles(user.roles)};
+  if (!currentUser.token && existingToken) currentUser.token = existingToken;
+  localStorage.setItem('campingUser', JSON.stringify(currentUser));
+}
+
+async function apiFetch(path, options = {}) {
+  const headers = {'Content-Type':'application/json', ...(options.headers || {})};
+  if (currentUser?.token) headers.Authorization = `Bearer ${currentUser.token}`;
+  const res = await fetch(`${API}${path}`, {...options, headers});
+  if (res.status === 401 || res.status === 403) {
+    throw new Error('Access denied. Sign in with an authorized account.');
+  }
+  if (!res.ok) {
+    let msg = `Request failed (${res.status})`;
+    try {
+      const body = await res.json();
+      msg = body.message || body.error || msg;
+    } catch(e) {
+      try { msg = await res.text() || msg; } catch(_) {}
+    }
+    throw new Error(msg);
+  }
+  if (res.status === 204) return null;
+  return res.json();
+}
+
+function formatDateTime(value) {
+  if (!value) return '';
+  return new Date(value).toLocaleString();
+}
+
+function requireLogin(sectionId) {
+  if (sectionId === 'home' || currentUser) return true;
+  toast('Sign in to continue', 'warning');
+  openAuthModal();
+  return false;
+}
 
 // ==================== DEMO DATA (shown when API offline) ====================
 const demoCenters = [
@@ -1091,22 +1203,22 @@ const demoCenters = [
 ];
 
 const demoProducts = [
-  {id:'p1',name:'Desert Pro 4 Tent',category:'TENT',price:289,rentalPricePerDay:25,availableForSale:true,availableForRental:true,rating:4.8,reviewCount:64,brand:'TrailMaster',description:'4-person ultralight tent, UV-resistant, perfect for desert camping',emoji:'⛺'},
-  {id:'p2',name:'Forest Shelter 3P',category:'TENT',price:199,rentalPricePerDay:18,availableForSale:true,availableForRental:true,rating:4.5,reviewCount:42,brand:'WoodCraft',description:'3-person tent with excellent rain protection',emoji:'🏕️'},
-  {id:'p3',name:'Sahara Dome 2P',category:'TENT',price:159,rentalPricePerDay:15,availableForSale:true,availableForRental:true,rating:4.3,reviewCount:38,brand:'SaharaGear',description:'Compact 2-person tent, breathable for hot climates',emoji:'⛺'},
-  {id:'p4',name:'Berber Warmth Sleeping Bag',category:'SLEEPING_BAG',price:89,rentalPricePerDay:8,availableForSale:true,availableForRental:true,rating:4.6,reviewCount:55,brand:'NightRest',description:'Rated -5°C, ideal for desert nights',emoji:'🛏️'},
-  {id:'p5',name:'Summer Coastal Bag',category:'SLEEPING_BAG',price:59,rentalPricePerDay:6,availableForSale:true,availableForRental:true,rating:4.2,reviewCount:31,brand:'NightRest',description:'Lightweight +15°C bag for coastal nights',emoji:'💤'},
-  {id:'p6',name:'Camp Chef Stove Set',category:'COOKING',price:75,rentalPricePerDay:10,availableForSale:true,availableForRental:true,rating:4.7,reviewCount:89,brand:'CampChef',description:'2-burner portable gas stove with windshield',emoji:'🍳'},
-  {id:'p7',name:'Mess Kit Pro',category:'COOKING',price:35,rentalPricePerDay:4,availableForSale:true,availableForRental:true,rating:4.4,reviewCount:67,brand:'CampChef',description:'Complete 4-person mess kit',emoji:'🥘'},
-  {id:'p8',name:'40L Insulated Cooler',category:'COOKING',price:85,rentalPricePerDay:12,availableForSale:true,availableForRental:true,rating:4.5,reviewCount:44,brand:'IcePro',description:'Keeps ice 48h — essential for desert trips',emoji:'🧊'},
-  {id:'p9',name:'Trail GPS Navigator',category:'NAVIGATION',price:199,rentalPricePerDay:20,availableForSale:true,availableForRental:true,rating:4.9,reviewCount:28,brand:'NavPro',description:'Rugged GPS with Tunisia offline maps',emoji:'🗺️'},
-  {id:'p10',name:'Silva Compass + Map Kit',category:'NAVIGATION',price:29,rentalPricePerDay:3,availableForSale:true,availableForRental:true,rating:4.6,reviewCount:52,brand:'Silva',description:'Professional compass with Tunisia topographic maps',emoji:'🧭'},
-  {id:'p11',name:'First Aid Kit Pro',category:'SAFETY',price:45,rentalPricePerDay:5,availableForSale:true,availableForRental:true,rating:4.8,reviewCount:73,brand:'SafeHike',description:'120-piece first aid kit for outdoor emergencies',emoji:'🩺'},
-  {id:'p12',name:'Headlamp 800 Lumen',category:'SAFETY',price:39,rentalPricePerDay:4,availableForSale:true,availableForRental:true,rating:4.7,reviewCount:82,brand:'LightPro',description:'Rechargeable 800-lumen headlamp with red night mode',emoji:'🔦'},
-  {id:'p13',name:'Desert 3L Water Bladder',category:'HYDRATION',price:35,rentalPricePerDay:4,availableForSale:true,availableForRental:true,rating:4.5,reviewCount:61,brand:'HydroTrail',description:'BPA-free hydration pack, insulated sleeve for desert heat',emoji:'💧'},
-  {id:'p14',name:'Water Purification Filter',category:'HYDRATION',price:55,rentalPricePerDay:7,availableForSale:true,availableForRental:true,rating:4.9,reviewCount:38,brand:'PureFlow',description:'Filters up to 100,000L — essential for forest spring water',emoji:'🚰'},
-  {id:'p15',name:'Emergency Survival Kit',category:'SAFETY',price:65,rentalPricePerDay:8,availableForSale:true,availableForRental:true,rating:4.7,reviewCount:45,brand:'SafeHike',description:'Whistle, fire starter, blanket, multi-tool',emoji:'🆘'},
-  {id:'p16',name:'Desert Sun Protection Kit',category:'CLOTHING',price:49,availableForSale:true,availableForRental:false,rating:4.4,reviewCount:29,brand:'SunShield',description:'UV shirt, sun hat, neck gaiter',emoji:'🧢'},
+  {id:'p1',name:'Desert Pro 4 Tent',category:'TENT',price:289,rentalPricePerDay:25,availableForSale:true,availableForRental:true,rating:4.8,reviewCount:64,brand:'TrailMaster',description:'4-person ultralight tent, UV-resistant, perfect for desert camping',emoji:''},
+  {id:'p2',name:'Forest Shelter 3P',category:'TENT',price:199,rentalPricePerDay:18,availableForSale:true,availableForRental:true,rating:4.5,reviewCount:42,brand:'WoodCraft',description:'3-person tent with excellent rain protection',emoji:''},
+  {id:'p3',name:'Sahara Dome 2P',category:'TENT',price:159,rentalPricePerDay:15,availableForSale:true,availableForRental:true,rating:4.3,reviewCount:38,brand:'SaharaGear',description:'Compact 2-person tent, breathable for hot climates',emoji:''},
+  {id:'p4',name:'Berber Warmth Sleeping Bag',category:'SLEEPING_BAG',price:89,rentalPricePerDay:8,availableForSale:true,availableForRental:true,rating:4.6,reviewCount:55,brand:'NightRest',description:'Rated -5°C, ideal for desert nights',emoji:''},
+  {id:'p5',name:'Summer Coastal Bag',category:'SLEEPING_BAG',price:59,rentalPricePerDay:6,availableForSale:true,availableForRental:true,rating:4.2,reviewCount:31,brand:'NightRest',description:'Lightweight +15°C bag for coastal nights',emoji:''},
+  {id:'p6',name:'Camp Chef Stove Set',category:'COOKING',price:75,rentalPricePerDay:10,availableForSale:true,availableForRental:true,rating:4.7,reviewCount:89,brand:'CampChef',description:'2-burner portable gas stove with windshield',emoji:''},
+  {id:'p7',name:'Mess Kit Pro',category:'COOKING',price:35,rentalPricePerDay:4,availableForSale:true,availableForRental:true,rating:4.4,reviewCount:67,brand:'CampChef',description:'Complete 4-person mess kit',emoji:''},
+  {id:'p8',name:'40L Insulated Cooler',category:'COOKING',price:85,rentalPricePerDay:12,availableForSale:true,availableForRental:true,rating:4.5,reviewCount:44,brand:'IcePro',description:'Keeps ice 48h — essential for desert trips',emoji:''},
+  {id:'p9',name:'Trail GPS Navigator',category:'NAVIGATION',price:199,rentalPricePerDay:20,availableForSale:true,availableForRental:true,rating:4.9,reviewCount:28,brand:'NavPro',description:'Rugged GPS with Tunisia offline maps',emoji:''},
+  {id:'p10',name:'Silva Compass + Map Kit',category:'NAVIGATION',price:29,rentalPricePerDay:3,availableForSale:true,availableForRental:true,rating:4.6,reviewCount:52,brand:'Silva',description:'Professional compass with Tunisia topographic maps',emoji:''},
+  {id:'p11',name:'First Aid Kit Pro',category:'SAFETY',price:45,rentalPricePerDay:5,availableForSale:true,availableForRental:true,rating:4.8,reviewCount:73,brand:'SafeHike',description:'120-piece first aid kit for outdoor emergencies',emoji:''},
+  {id:'p12',name:'Headlamp 800 Lumen',category:'SAFETY',price:39,rentalPricePerDay:4,availableForSale:true,availableForRental:true,rating:4.7,reviewCount:82,brand:'LightPro',description:'Rechargeable 800-lumen headlamp with red night mode',emoji:''},
+  {id:'p13',name:'Desert 3L Water Bladder',category:'HYDRATION',price:35,rentalPricePerDay:4,availableForSale:true,availableForRental:true,rating:4.5,reviewCount:61,brand:'HydroTrail',description:'BPA-free hydration pack, insulated sleeve for desert heat',emoji:''},
+  {id:'p14',name:'Water Purification Filter',category:'HYDRATION',price:55,rentalPricePerDay:7,availableForSale:true,availableForRental:true,rating:4.9,reviewCount:38,brand:'PureFlow',description:'Filters up to 100,000L — essential for forest spring water',emoji:''},
+  {id:'p15',name:'Emergency Survival Kit',category:'SAFETY',price:65,rentalPricePerDay:8,availableForSale:true,availableForRental:true,rating:4.7,reviewCount:45,brand:'SafeHike',description:'Whistle, fire starter, blanket, multi-tool',emoji:''},
+  {id:'p16',name:'Desert Sun Protection Kit',category:'CLOTHING',price:49,availableForSale:true,availableForRental:false,rating:4.4,reviewCount:29,brand:'SunShield',description:'UV shirt, sun hat, neck gaiter',emoji:''},
 ];
 
 // ==================== NAVIGATION ====================
@@ -1151,7 +1263,7 @@ function updateAuthModal() {
 async function submitAuth() {
   const email = document.getElementById('authEmail').value;
   const password = document.getElementById('authPass').value;
-  if (!email || !password) { toast('Please fill all fields','error'); return; }
+  if (!email || !password) { toast('Email and password are required','error'); return; }
 
   if (authMode === 'login') {
     // Demo login (offline mode)
@@ -1165,9 +1277,9 @@ async function submitAuth() {
   } else {
     const firstName = document.getElementById('regFirst').value;
     const lastName = document.getElementById('regLast').value;
-    if (!firstName || !lastName) { toast('Please fill name fields','error'); return; }
+    if (!firstName || !lastName) { toast('First and last name are required','error'); return; }
     loginSuccess({email, firstName, lastName, roles:['USER'], userId:'new-'+Date.now(), token:'demo-token'});
-    toast('Account created! Welcome to CampingTN 🎉');
+    toast('Account created');
   }
 }
 
@@ -1176,7 +1288,7 @@ function loginSuccess(user) {
   localStorage.setItem('campingUser', JSON.stringify(user));
   updateNavForUser();
   closeModal('authModal');
-  toast(`Welcome, ${user.firstName}! 👋`);
+  toast(`Signed in`);
 }
 
 function updateNavForUser() {
@@ -1203,15 +1315,12 @@ function logout() {
 }
 
 // ==================== CAMPING CENTERS ====================
-function getSiteEmoji(nature) {
-  if (!nature) return '🏕️';
+function getSiteImageClass(nature) {
+  if (!nature) return 'forest-img';
   const n = nature.toLowerCase();
-  if (n.includes('désertique') && n.includes('foréstiére')) return '🌲🏜️';
-  if (n.includes('littoral') && n.includes('foréstiére')) return '🌲🌊';
-  if (n.includes('désertique')) return '🏜️';
-  if (n.includes('littoral')) return '🌊';
-  if (n.includes('foréstiére')) return '🌲';
-  return '🏕️';
+  if (n.includes('littoral')) return 'coastal-img';
+  if (n.includes('dÃ©sertique') || n.includes('désertique')) return 'desert-img';
+  return 'forest-img';
 }
 
 function getSiteBadgeClass(nature) {
@@ -1236,8 +1345,8 @@ function renderStars(rating) {
   const full = Math.floor(rating);
   const half = rating % 1 >= 0.5;
   let s = '';
-  for(let i=0;i<full;i++) s+='⭐';
-  if(half) s+='✨';
+  for(let i=0;i<full;i++) s+='';
+  if(half) s+='';
   return s + ` <span style="color:var(--text-muted);font-size:.8rem">(${rating})</span>`;
 }
 
@@ -1266,19 +1375,19 @@ function renderCenters() {
 
   grid.innerHTML = filtered.map(c => `
     <div class="card">
-      <div class="card-img">${getSiteEmoji(c.siteNature)}</div>
+      <div class="card-img ${getSiteImageClass(c.siteNature)}"></div>
       <div class="card-body">
         <span class="card-badge ${getSiteBadgeClass(c.siteNature)}">${getSiteLabel(c.siteNature)}</span>
         <h3>${c.name}</h3>
-        <p class="location">📍 ${c.governorate}${c.region?' · '+c.region:''}</p>
+        <p class="location"> ${c.governorate}${c.region?' · '+c.region:''}</p>
         <div class="stars">${renderStars(c.rating||4.0)}</div>
         <p style="font-size:.85rem;color:var(--text-muted);margin-top:.5rem;line-height:1.5">${c.description||''}</p>
       </div>
       <div class="card-footer">
         <div class="capacity">
-          👥 Total: <strong>${c.capacityTotal||'N/A'}</strong>
-          ${c.capacityBuildings?' · 🏠 '+c.capacityBuildings:''}
-          ${c.capacityTents?' · ⛺ '+c.capacityTents:''}
+           Total: <strong>${c.capacityTotal||'N/A'}</strong>
+          ${c.capacityBuildings?' ·  '+c.capacityBuildings:''}
+          ${c.capacityTents?' ·  '+c.capacityTents:''}
           ${c.yearCreated?' · Est. '+c.yearCreated:''}
         </div>
         <div class="d-flex gap-1">
@@ -1301,7 +1410,7 @@ function filterCenters() { renderCenters(); }
 
 // ==================== BOOKING ====================
 function openBookModal(centerId, centerName) {
-  if (!currentUser) { toast('Please sign in to book','warning'); openAuthModal(); return; }
+  if (!currentUser) { toast('Sign in to book','warning'); openAuthModal(); return; }
   bookingCenterId = centerId;
   document.getElementById('bookCenter').value = centerName;
   const today = new Date().toISOString().split('T')[0];
@@ -1316,7 +1425,7 @@ async function submitBooking() {
   if (!checkIn || !checkOut || !persons) { toast('Please fill all required fields','error'); return; }
   if (checkOut <= checkIn) { toast('Check-out must be after check-in','error'); return; }
 
-  toast('Booking confirmed! 🎉 Check your profile for details.');
+  toast('Booking confirmed. You can find it in your profile.');
   closeModal('bookModal');
 }
 
@@ -1374,9 +1483,9 @@ function calcBudgetLocally(gov, type, persons, days, startDate, accom) {
   const temp = isSouth?(season==='SUMMER'?44:season==='WINTER'?15:28):(season==='SUMMER'?32:season==='WINTER'?13:22);
   const humidity = isSouth?(season==='SUMMER'?20:45):(season==='SUMMER'?65:80);
 
-  const essentials = {DESERT:['🆘 First Aid Kit','💧 5L Water/person/day','☀️ UV Clothing','🧭 GPS/Compass','🔦 Headlamp','🛏️ Warm Sleeping Bag (-5°C)','🥘 Cooking Kit'],COASTAL:['🆘 First Aid Kit','💧 Water Bottles','🌊 Life Jacket','🔦 Headlamp','🛏️ Summer Sleeping Bag','🎒 Waterproof Bag'],FOREST:['🆘 First Aid Kit','💧 Water Filter','🌧️ Rain Poncho','🥾 Hiking Boots','🔦 Headlamp','🛏️ Sleeping Bag','🧱 Trekking Poles']}[type];
-  const optional = ['📷 Camera/GoPro','🔋 Power Bank','🎵 Portable Speaker','🌙 Star Map App','🪑 Camping Chair'];
-  const tips = [`Book at least 2 weeks in advance for ${season} season`,`${type==='DESERT'?'🌙 Desert nights drop to 5°C — always bring warm gear!':type==='COASTAL'?'🌊 Check sea conditions before swimming':' 🌿 Check for tick alerts in forest areas'}`,`Download offline map of ${gov} before departure`];
+  const essentials = {DESERT:['First Aid Kit','5L Water/person/day','UV Clothing','GPS/Compass','Headlamp','Warm Sleeping Bag (-5C)','Cooking Kit'],COASTAL:['First Aid Kit','Water Bottles','Life Jacket','Headlamp','Summer Sleeping Bag','Waterproof Bag'],FOREST:['First Aid Kit','Water Filter','Rain Poncho','Hiking Boots','Headlamp','Sleeping Bag','Trekking Poles']}[type];
+  const optional = ['Camera/GoPro','Power Bank','Portable Speaker','Star Map App','Camping Chair'];
+  const tips = [`Book at least 2 weeks in advance for ${season} season`,`${type==='DESERT'?'Desert nights can be cold; bring warm gear.':type==='COASTAL'?'Check sea conditions before swimming.':'Check forest trail and weather alerts before departure.'}`,`Download an offline map of ${gov} before departure`];
 
   return {
     governorate:gov, siteType:type, numberOfPersons:persons, numberOfDays:days,
@@ -1384,8 +1493,8 @@ function calcBudgetLocally(gov, type, persons, days, startDate, accom) {
     budgetMin:Math.round((total-v)*100)/100, budgetMax:Math.round((total+v)*100)/100,
     budgetBreakdown:{Accommodation:Math.round(accomTotal*100)/100,'Food & Water':Math.round(foodTotal*100)/100,Transport:Math.round(transport*100)/100,Equipment:Math.round(equip*100)/100,'Activities & Misc':Math.round(misc*100)/100},
     essentialItems:essentials, optionalItems:optional, tips, season, temperature:temp, humidity,
-    weatherAlert:(type==='DESERT'&&season==='SUMMER')?'🔴 EXTREME HEAT: Desert temperatures exceed 45°C in summer. Not recommended for children or elderly.':(type==='FOREST'&&season==='SUMMER')?'🟠 FIRE RISK: High fire risk in summer forests.':null,
-    weatherSummary:`Typical ${season.toLowerCase()} in ${gov}: ${isSouth?(season==='SUMMER'?'extreme heat, 40–48°C':'mild, 15–20°C days, cold nights'):'Mediterranean climate, '+temp+'°C avg'}`
+    weatherAlert:(type==='DESERT'&&season==='SUMMER')?'EXTREME HEAT: Desert temperatures exceed 45C in summer. Avoid trips with children or elderly travelers.':(type==='FOREST'&&season==='SUMMER')?'FIRE RISK: High fire risk in summer forests.':null,
+    weatherSummary:`Typical ${season.toLowerCase()} in ${gov}: ${isSouth?(season==='SUMMER'?'extreme heat, 40-48C':'mild, 15-20C days, cold nights'):'Mediterranean climate, '+temp+'C avg'}`
   };
 }
 
@@ -1393,31 +1502,30 @@ function showBudgetResult(r) {
   const el = document.getElementById('budgetResult');
   el.classList.add('show');
   document.getElementById('resultAmount').textContent = r.predictedBudget.toLocaleString('fr-TN') + ' TND';
-  document.getElementById('resultRange').textContent = `Range: ${r.budgetMin} – ${r.budgetMax} TND`;
-  document.getElementById('resultMeta').textContent = `${r.numberOfPersons} persons · ${r.numberOfDays} days · ${r.governorate} · ${r.season||''}`;
+  document.getElementById('resultRange').textContent = `Range: ${r.budgetMin} - ${r.budgetMax} TND`;
+  document.getElementById('resultMeta').textContent = `${r.numberOfPersons} persons - ${r.numberOfDays} days - ${r.governorate} - ${r.season||''}`;
 
   // Weather card
   document.getElementById('weatherCard').innerHTML = `
     <div class="weather-card">
-      <div class="weather-temp">${r.temperature||'?'}°C</div>
+      <div class="weather-temp">${r.temperature||'?'}C</div>
       <div class="weather-info">
-        <h4>🌤️ ${r.weatherSummary||'Weather info'}</h4>
-        <p>Humidity: ${r.humidity||'?'}% · ${r.season||''} conditions</p>
+        <h4>${r.weatherSummary||'Weather info'}</h4>
+        <p>Humidity: ${r.humidity||'?'}% - ${r.season||''} conditions</p>
       </div>
     </div>`;
 
   // Alert
   const alertEl = document.getElementById('alertBanner');
   if (r.weatherAlert) {
-    const cls = r.weatherAlert.startsWith('🔴')?'alert-red':r.weatherAlert.startsWith('🟠')?'alert-orange':'alert-yellow';
-    alertEl.innerHTML = `<div class="alert-banner ${cls}"><span style="font-size:1.2rem">⚠️</span>${r.weatherAlert}</div>`;
+    const cls = r.weatherAlert.startsWith('EXTREME HEAT') ? 'alert-red' : r.weatherAlert.startsWith('FIRE RISK') ? 'alert-orange' : 'alert-yellow';
+    alertEl.innerHTML = `<div class="alert-banner ${cls}"><span style="font-size:1.2rem"></span>${r.weatherAlert}</div>`;
   } else alertEl.innerHTML = '';
 
   // Breakdown
-  const breakdownIcons = {Accommodation:'🏠','Food & Water':'🍽️',Transport:'🚗',Equipment:'🎒','Activities & Misc':'🎯'};
+  const breakdownIcons = {};
   document.getElementById('breakdownGrid').innerHTML = Object.entries(r.budgetBreakdown||{}).map(([k,v])=>`
     <div class="breakdown-item">
-      <div style="font-size:1.5rem">${breakdownIcons[k]||'💰'}</div>
       <div class="val">${v} TND</div>
       <div class="lbl">${k}</div>
     </div>`).join('');
@@ -1430,14 +1538,23 @@ function showBudgetResult(r) {
 
   // Tips
   document.getElementById('tipsList').innerHTML = (r.tips||[]).map(t=>
-    `<div style="padding:.75rem 1rem;background:var(--green-pale);border-radius:10px;font-size:.88rem;margin-bottom:.5rem;color:#1a4731">💡 ${t}</div>`).join('');
+    `<div style="padding:.75rem 1rem;background:var(--green-pale);border-radius:10px;font-size:.88rem;margin-bottom:.5rem;color:#1a4731"> ${t}</div>`).join('');
 
   el.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 // ==================== SHOP ====================
-function getProductEmoji(cat) {
-  return {TENT:'⛺',SLEEPING_BAG:'🛏️',COOKING:'🍳',NAVIGATION:'🧭',SAFETY:'🛡️',HYDRATION:'💧',CLOTHING:'👕'}[cat]||'📦';
+function getProductIcon(cat) {
+  const icons = {
+    TENT: 'fa-campground',
+    SLEEPING_BAG: 'fa-bed',
+    COOKING: 'fa-fire-burner',
+    NAVIGATION: 'fa-compass',
+    SAFETY: 'fa-shield-halved',
+    HYDRATION: 'fa-droplet',
+    CLOTHING: 'fa-shirt'
+  };
+  return `<i class="fas ${icons[cat] || 'fa-box-open'}"></i>`;
 }
 
 function loadShop() {
@@ -1459,7 +1576,7 @@ function renderProducts() {
   grid.innerHTML = filtered.map(p => `
     <div class="product-card">
       <div class="product-img">
-        ${p.emoji||getProductEmoji(p.category)}
+        ${getProductIcon(p.category)}
         <div class="product-badges">
           ${p.availableForSale?'<span class="tag tag-sale">BUY</span>':''}
           ${p.availableForRental?'<span class="tag tag-rental">RENT</span>':''}
@@ -1476,8 +1593,8 @@ function renderProducts() {
           ${p.availableForRental?`<span class="price-rent">Rent: ${p.rentalPricePerDay} TND/day</span>`:''}
         </div>
         <div class="product-actions">
-          ${p.availableForSale?`<button class="btn btn-primary btn-sm" style="flex:1" onclick="addToCart('${p.id}','buy')">🛒 Buy</button>`:''}
-          ${p.availableForRental?`<button class="btn btn-ocean btn-sm" style="flex:1" onclick="addToCart('${p.id}','rent')">🔄 Rent</button>`:''}
+          ${p.availableForSale?`<button class="btn btn-primary btn-sm" style="flex:1" onclick="addToCart('${p.id}','buy')">Buy</button>`:''}
+          ${p.availableForRental?`<button class="btn btn-ocean btn-sm" style="flex:1" onclick="addToCart('${p.id}','rent')">Rent</button>`:''}
         </div>
       </div>
     </div>
@@ -1498,10 +1615,10 @@ function addToCart(productId, mode) {
   if (!p) return;
   const existing = cart.find(i => i.id === productId && i.mode === mode);
   if (existing) { existing.qty++; }
-  else { cart.push({id:productId, name:p.name, price:mode==='buy'?p.price:p.rentalPricePerDay, mode, qty:1, emoji:p.emoji||getProductEmoji(p.category)}); }
+  else { cart.push({id:productId, name:p.name, price:mode==='buy'?p.price:p.rentalPricePerDay, mode, qty:1, category:p.category}); }
   localStorage.setItem('campingCart', JSON.stringify(cart));
   updateCartBadge();
-  toast(`${p.name} added to cart 🛒`);
+  toast(`${p.name} added to cart`);
 }
 
 function toggleCart() {
@@ -1514,7 +1631,7 @@ function renderCart() {
   if (!cart.length) { el.innerHTML='<p style="text-align:center;color:var(--text-muted);padding:2rem">Your cart is empty</p>'; document.getElementById('cartTotal').textContent='0 TND'; return; }
   el.innerHTML = cart.map(item => `
     <div class="cart-item">
-      <div class="cart-item-img">${item.emoji}</div>
+      <div class="cart-item-img">${getProductIcon(item.category)}</div>
       <div class="cart-item-info">
         <h4>${item.name}</h4>
         <div class="price">${item.price} TND ${item.mode==='rent'?'/day':''}</div>
@@ -1545,8 +1662,8 @@ function updateCartBadge() {
 }
 
 function checkout() {
-  if (!currentUser) { toast('Please sign in to checkout','warning'); toggleCart(); openAuthModal(); return; }
-  toast('Order placed! 🎉 Check your profile for status.');
+  if (!currentUser) { toast('Sign in to checkout','warning'); toggleCart(); openAuthModal(); return; }
+  toast('Order placed. You can follow it from your profile.');
   cart = [];
   localStorage.setItem('campingCart',JSON.stringify(cart));
   updateCartBadge(); renderCart();
@@ -1571,12 +1688,12 @@ function switchAdmin(panel) {
 function loadAdmin() {
   // Stats
   const stats = [
-    {icon:'🏕️',label:'Camping Centers',value:'13',color:'#d1fae5',iconColor:'#065f46'},
-    {icon:'📅',label:'Total Bookings',value:'47',color:'#dbeafe',iconColor:'#1e40af'},
-    {icon:'🛒',label:'Total Orders',value:'128',color:'#fef3c7',iconColor:'#92400e'},
-    {icon:'👥',label:'Users',value:'312',color:'#f3e8ff',iconColor:'#7c3aed'},
-    {icon:'💰',label:'Revenue (TND)',value:'18,450',color:'#d1fae5',iconColor:'#065f46'},
-    {icon:'🔧',label:'Open Tasks',value:'3',color:'#fee2e2',iconColor:'#991b1b'},
+    {icon:'',label:'Camping Centers',value:'13',color:'#d1fae5',iconColor:'#065f46'},
+    {icon:'',label:'Total Bookings',value:'47',color:'#dbeafe',iconColor:'#1e40af'},
+    {icon:'',label:'Total Orders',value:'128',color:'#fef3c7',iconColor:'#92400e'},
+    {icon:'',label:'Users',value:'312',color:'#f3e8ff',iconColor:'#7c3aed'},
+    {icon:'',label:'Revenue (TND)',value:'18,450',color:'#d1fae5',iconColor:'#065f46'},
+    {icon:'',label:'Open Tasks',value:'3',color:'#fee2e2',iconColor:'#991b1b'},
   ];
   document.getElementById('adminStats').innerHTML = stats.map(s=>`
     <div class="stat-card">
@@ -1589,11 +1706,11 @@ function loadAdmin() {
 
   // Activity feed
   const activities = [
-    {icon:'🏕️',text:'New booking at Centre Douz',user:'ahmed@test.tn',time:'2min ago'},
-    {icon:'🛒',text:'Order #128 — 245 TND',user:'sara@test.tn',time:'15min ago'},
-    {icon:'👤',text:'New user registered',user:'zied@test.tn',time:'1hr ago'},
-    {icon:'🔧',text:'Maintenance task resolved',user:'Admin',time:'2hr ago'},
-    {icon:'⭐',text:'New 5-star review at Centre El Salloume',user:'maria@test.tn',time:'3hr ago'},
+    {icon:'',text:'New booking at Centre Douz',user:'ahmed@test.tn',time:'2min ago'},
+    {icon:'',text:'Order #128 — 245 TND',user:'sara@test.tn',time:'15min ago'},
+    {icon:'',text:'New user registered',user:'zied@test.tn',time:'1hr ago'},
+    {icon:'',text:'Maintenance task resolved',user:'Admin',time:'2hr ago'},
+    {icon:'',text:'New 5-star review at Centre El Salloume',user:'maria@test.tn',time:'3hr ago'},
   ];
   document.getElementById('activityFeed').innerHTML = activities.map(a=>`
     <div style="display:flex;align-items:center;gap:.75rem;padding:.6rem 0;border-bottom:1px solid var(--border)">
@@ -1629,7 +1746,7 @@ function renderCentersAdmin() {
       <td>${c.governorate}</td>
       <td>${getSiteLabel(c.siteNature)}</td>
       <td>${c.capacityTotal||'N/A'}</td>
-      <td>⭐ ${c.rating}</td>
+      <td> ${c.rating}</td>
       <td><span class="status-badge status-confirmed">Active</span></td>
     </tr>`).join('');
 }
@@ -1663,8 +1780,8 @@ function renderBookingsAdmin() {
       <td>${b.persons}</td>
       <td><span class="status-badge status-${b.status.toLowerCase()}">${b.status}</span></td>
       <td>
-        <button class="btn btn-sm btn-outline" onclick="toast('Status updated')">✅ Confirm</button>
-        <button class="btn btn-sm" style="background:#fee2e2;color:#ef4444" onclick="toast('Cancelled')">❌</button>
+        <button class="btn btn-sm btn-outline" onclick="toast('Status updated')"> Confirm</button>
+        <button class="btn btn-sm" style="background:#fee2e2;color:#ef4444" onclick="toast('Cancelled')"></button>
       </td>
     </tr>`).join('');
 }
@@ -1690,7 +1807,7 @@ function renderUsersAdmin() {
     {name:'Sara Trabelsi',email:'sara@test.tn',role:'USER',gov:'Bizerte',active:true}];
   document.getElementById('usersTable').innerHTML = users.map(u=>`
     <tr>
-      <td style="font-weight:600">👤 ${u.name}</td>
+      <td style="font-weight:600"> ${u.name}</td>
       <td>${u.email}</td>
       <td><span class="tag ${u.role==='ADMIN'?'tag-sale':'tag-rental'}">${u.role}</span></td>
       <td>${u.gov}</td>
@@ -1765,16 +1882,16 @@ function openAddTask() {
   const assigned = prompt('Assign to:','Dev Team');
   maintenanceTasks.push({id:'t'+Date.now(),title,category:category||'WEBSITE',priority:priority||'MEDIUM',assignedTo:assigned||'Unassigned',status:'OPEN',dueDate:''});
   renderMaintenance();
-  toast('Maintenance task created ✅');
+  toast('Maintenance task created');
 }
 
 // ==================== PROFILE ====================
 function loadProfile() {
   if (!currentUser) { showSection('home'); openAuthModal(); return; }
-  document.getElementById('profileAvatar').textContent = currentUser.firstName?.[0]?.toUpperCase()||'👤';
+  document.getElementById('profileAvatar').textContent = currentUser.firstName?.[0]?.toUpperCase()||'';
   document.getElementById('profileName').textContent = currentUser.firstName + ' ' + (currentUser.lastName||'');
   document.getElementById('profileEmail').textContent = currentUser.email;
-  document.getElementById('profileGov').textContent = currentUser.governorate ? '📍 '+currentUser.governorate : '';
+  document.getElementById('profileGov').textContent = currentUser.governorate ? ' '+currentUser.governorate : '';
 }
 
 function switchTab(btn, tabId) {
@@ -1788,11 +1905,432 @@ function switchTab(btn, tabId) {
 function toast(msg, type='success') {
   const el = document.createElement('div');
   el.className = `toast ${type}`;
-  const icons = {success:'✅',error:'❌',warning:'⚠️'};
-  el.innerHTML = `<span>${icons[type]||'ℹ️'}</span><span>${msg}</span>`;
+  el.innerHTML = `<span class="toast-mark"></span><span>${msg}</span>`;
   document.getElementById('toastContainer').appendChild(el);
   setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(100%)';el.style.transition='.3s ease';setTimeout(()=>el.remove(),300);},3500);
 }
+
+// ==================== DYNAMIC API OVERRIDES ====================
+submitAuth = async function() {
+  const email = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPass').value;
+  if (!email || !password) { toast('Email and password are required','error'); return; }
+  try {
+    if (authMode === 'login') {
+      loginSuccess(await apiFetch('/auth/login', {method:'POST', body: JSON.stringify({email, password})}));
+      return;
+    }
+    const firstName = document.getElementById('regFirst').value.trim();
+    const lastName = document.getElementById('regLast').value.trim();
+    if (!firstName || !lastName) { toast('First and last name are required','error'); return; }
+    loginSuccess(await apiFetch('/auth/register', {
+      method:'POST',
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        password,
+        phone: document.getElementById('regPhone').value.trim(),
+        governorate: document.getElementById('regGov').value,
+        adminCode: document.getElementById('regAdminCode').value.trim()
+      })
+    }));
+    toast('Account created');
+  } catch (e) {
+    toast(e.message || 'Could not sign in', 'error');
+  }
+};
+
+loginSuccess = function(user) {
+  saveCurrentUser(user);
+  updateNavForUser();
+  closeModal('authModal');
+  toast(`Signed in as ${currentUser.firstName || currentUser.email}`);
+};
+
+updateNavForUser = function() {
+  const logged = !!currentUser;
+  document.getElementById('authBtn').classList.toggle('hidden', logged);
+  document.getElementById('userMenu').classList.toggle('hidden', !logged);
+  document.getElementById('nav-admin').classList.add('hidden');
+  ['nav-explore','nav-budget','nav-shop'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('hidden', !logged);
+  });
+  if (!logged) return;
+  document.getElementById('userFirstName').textContent = currentUser.firstName || currentUser.email;
+  if (normalizeRoles(currentUser.roles).includes('ADMIN')) document.getElementById('nav-admin').classList.remove('hidden');
+};
+
+showSection = function(id) {
+  if (!requireLogin(id)) return;
+  if (id === 'admin' && !normalizeRoles(currentUser?.roles).includes('ADMIN')) {
+    toast('Admin access required', 'error');
+    return;
+  }
+
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const navEl = document.getElementById('nav-'+id);
+  if (navEl) navEl.classList.add('active');
+
+  if (id === 'explore') loadCampingCenters();
+  if (id === 'budget') {
+    const date = document.getElementById('budgetDate');
+    if (date && !date.value) date.value = new Date().toISOString().split('T')[0];
+  }
+  if (id === 'shop') loadShop();
+  if (id === 'admin') loadAdmin();
+  if (id === 'profile') loadProfile();
+  window.scrollTo(0,0);
+};
+
+loadCampingCenters = async function() {
+  try { campingCenters = await apiFetch('/camping-centers'); }
+  catch(e) { campingCenters = demoCenters; toast('Offline mode: sample camping data shown', 'warning'); }
+  renderCenters();
+};
+
+loadShop = async function() {
+  try { products = await apiFetch('/products'); }
+  catch(e) { products = demoProducts; toast('Offline mode: sample products shown', 'warning'); }
+  renderProducts();
+};
+
+submitBooking = async function() {
+  const checkIn = document.getElementById('bookIn').value;
+  const checkOut = document.getElementById('bookOut').value;
+  const persons = parseInt(document.getElementById('bookPersons').value, 10);
+  if (!checkIn || !checkOut || !persons) { toast('Please fill all required fields','error'); return; }
+  if (checkOut <= checkIn) { toast('Check-out must be after check-in','error'); return; }
+  const center = campingCenters.find(c => c.id === bookingCenterId);
+  const days = Math.max(1, Math.ceil((new Date(checkOut) - new Date(checkIn)) / 86400000));
+  const rate = document.getElementById('bookType').value === 'BUILDING' ? 35 : 18;
+  try {
+    await apiFetch('/bookings', {
+      method:'POST',
+      body: JSON.stringify({
+        userId: currentUser?.userId,
+        campingCenterId: bookingCenterId,
+        campingCenterName: center?.name || document.getElementById('bookCenter').value,
+        governorate: center?.governorate,
+        checkIn,
+        checkOut,
+        numberOfPersons: persons,
+        accommodationType: document.getElementById('bookType').value,
+        totalCost: days * persons * rate,
+        specialRequests: document.getElementById('bookNotes').value,
+        emergencyContact: document.getElementById('bookEmergency').value
+      })
+    });
+    closeModal('bookModal');
+    toast('Booking confirmed');
+  } catch(e) { toast(e.message || 'Booking failed', 'error'); }
+};
+
+checkout = async function() {
+  if (!currentUser) { toast('Sign in to checkout','warning'); toggleCart(); openAuthModal(); return; }
+  if (!cart.length) { toast('Your cart is empty','warning'); return; }
+  const items = cart.map(i => ({
+    productId: i.id,
+    productName: i.name,
+    quantity: i.qty,
+    unitPrice: i.price,
+    total: Number((i.price * i.qty).toFixed(2)),
+    rental: i.mode === 'rent',
+    rentalDays: i.mode === 'rent' ? 1 : 0
+  }));
+  const subtotal = items.reduce((sum, i) => sum + i.total, 0);
+  const tax = Number((subtotal * 0.07).toFixed(2));
+  const deliveryFee = subtotal > 200 ? 0 : 8;
+  try {
+    await apiFetch('/orders', {
+      method:'POST',
+      body: JSON.stringify({
+        userId: currentUser.userId,
+        items,
+        subtotal,
+        tax,
+        deliveryFee,
+        totalAmount: Number((subtotal + tax + deliveryFee).toFixed(2)),
+        orderType: cart.some(i => i.mode === 'rent') ? 'RENTAL' : 'SALE',
+        deliveryGovernorate: currentUser.governorate,
+        paymentMethod: 'CASH_ON_DELIVERY'
+      })
+    });
+    cart = [];
+    localStorage.setItem('campingCart', JSON.stringify(cart));
+    updateCartBadge();
+    renderCart();
+    toggleCart();
+    toast('Order placed');
+  } catch(e) { toast(e.message || 'Checkout failed', 'error'); }
+};
+
+loadAdmin = async function() {
+  try {
+    const dashboard = await apiFetch('/admin/dashboard');
+    const stats = [
+      {icon:'',label:'Camping Centers',value:dashboard.totalCampingCenters || 0,color:'#d1fae5',iconColor:'#065f46'},
+      {icon:'',label:'Total Bookings',value:dashboard.totalBookings || 0,color:'#dbeafe',iconColor:'#1e40af'},
+      {icon:'⏳',label:'Pending Bookings',value:dashboard.pendingBookings || 0,color:'#fff7ed',iconColor:'#9a3412'},
+      {icon:'',label:'Total Orders',value:dashboard.totalOrders || 0,color:'#fef3c7',iconColor:'#92400e'},
+      {icon:'',label:'Pending Orders',value:dashboard.pendingOrders || 0,color:'#fffbeb',iconColor:'#92400e'},
+      {icon:'',label:'Users',value:dashboard.totalUsers || 0,color:'#f3e8ff',iconColor:'#7c3aed'},
+      {icon:'',label:'Revenue (TND)',value:dashboard.totalRevenue || 0,color:'#d1fae5',iconColor:'#065f46'},
+      {icon:'',label:'Budget Estimates',value:dashboard.totalPredictions || 0,color:'#dbeafe',iconColor:'#1e40af'},
+      {icon:'',label:'Open Tasks',value:dashboard.openTasks || 0,color:'#fee2e2',iconColor:'#991b1b'}
+    ];
+    document.getElementById('adminStats').innerHTML = stats.map(s=>`
+      <div class="stat-card"><div class="stat-icon" style="background:${s.color};color:${s.iconColor}">${s.icon}</div>
+      <div class="stat-info"><div class="value">${s.value}</div><div class="name">${s.label}</div></div></div>`).join('');
+    const activity = await apiFetch('/admin/activity');
+    document.getElementById('activityFeed').innerHTML = activity.length ? activity.map(a=>`
+      <div style="display:flex;align-items:center;gap:.75rem;padding:.6rem 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:1.3rem">${a.icon || '•'}</span>
+        <div style="flex:1"><div style="font-size:.88rem;font-weight:500">${a.description || ''}</div><div style="font-size:.78rem;color:var(--text-muted)">${a.user || ''} · ${formatDateTime(a.time)}</div></div>
+      </div>`).join('') : '<p class="text-muted">No recent activity.</p>';
+    await Promise.all([loadCampingCenters(), loadShop(), renderMaintenance()]);
+    const byRegion = campingCenters.reduce((acc, c) => {
+      const key = c.region || c.governorate || 'Unknown';
+      acc[key] = (acc[key] || 0) + 1;
+      return acc;
+    }, {});
+    const maxRegion = Math.max(1, ...Object.values(byRegion));
+    document.getElementById('regionalChart').innerHTML = Object.entries(byRegion).map(([region, count]) => `
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem">
+        <div style="width:130px;font-size:.8rem;color:var(--text-muted)">${region}</div>
+        <div style="flex:1;background:#f3f4f6;border-radius:4px;height:18px;overflow:hidden">
+          <div style="width:${count / maxRegion * 100}%;background:var(--green);height:100%;border-radius:4px"></div>
+        </div>
+        <div style="font-weight:700;font-size:.9rem;width:28px;text-align:right">${count}</div>
+      </div>`).join('');
+  } catch(e) { toast(e.message || 'Admin dashboard unavailable', 'error'); }
+};
+
+renderCentersAdmin = async function() {
+  try { campingCenters = await apiFetch('/camping-centers'); } catch(e) {}
+  document.getElementById('centersTable').innerHTML = campingCenters.map(c=>`
+    <tr><td style="font-weight:600">${c.name}</td><td>${c.governorate || ''}</td><td>${getSiteLabel(c.siteNature)}</td><td>${c.capacityTotal || 'N/A'}</td><td> ${c.rating || 0}</td>
+    <td><span class="status-badge ${c.active === false ? 'status-cancelled' : 'status-confirmed'}">${c.active === false ? 'Inactive' : 'Active'}</span></td>
+    <td><button class="btn btn-sm btn-outline" onclick="openCenterForm('${c.id}')">Edit</button> <button class="btn btn-sm" style="background:#fee2e2;color:#ef4444" onclick="deleteCenter('${c.id}')">Delete</button></td></tr>`).join('');
+};
+
+renderProductsAdmin = async function() {
+  try { products = await apiFetch('/products'); } catch(e) {}
+  document.getElementById('productsAdminTable').innerHTML = products.map(p=>`
+    <tr><td style="font-weight:600">${p.name}</td><td>${p.category?.replace('_',' ') || ''}</td><td>${p.price || 0} TND</td><td>${p.rentalPricePerDay || 0} TND</td><td>${p.stockSale || 0} / ${p.stockRental || 0}</td>
+    <td><button class="btn btn-sm btn-outline" onclick="openProductForm('${p.id}')">Edit</button> <button class="btn btn-sm" style="background:#fee2e2;color:#ef4444" onclick="deleteProduct('${p.id}')">Delete</button></td></tr>`).join('');
+};
+
+renderBookingsAdmin = async function() {
+  try {
+    const bookings = await apiFetch('/bookings');
+    document.getElementById('bookingCount').textContent = bookings.length + ' bookings';
+    document.getElementById('bookingsTable').innerHTML = bookings.map(b=>`
+      <tr><td style="font-family:monospace;font-size:.82rem">${b.id}</td><td>${b.userEmail || ''}</td><td style="font-weight:500">${b.campingCenterName || ''}</td><td>${b.checkIn || ''}</td><td>${b.numberOfPersons || 0}</td>
+      <td><span class="status-badge status-${(b.status || 'pending').toLowerCase()}">${b.status || 'PENDING'}</span></td>
+      <td><button class="btn btn-sm btn-outline" onclick="updateBookingStatus('${b.id}','CONFIRMED')">Confirm</button> <button class="btn btn-sm" style="background:#fee2e2;color:#ef4444" onclick="updateBookingStatus('${b.id}','CANCELLED')">Cancel</button></td></tr>`).join('');
+  } catch(e) { toast(e.message || 'Bookings unavailable', 'error'); }
+};
+
+renderOrdersAdmin = async function() {
+  try {
+    const orders = await apiFetch('/orders');
+    document.getElementById('ordersTable').innerHTML = orders.map(o=>`
+      <tr><td style="font-family:monospace;font-size:.82rem">${o.id}</td><td>${o.userEmail || ''}</td><td style="font-weight:700;color:var(--green)">${o.totalAmount || 0} TND</td><td>${o.orderType || ''}</td>
+      <td><span class="status-badge status-${(o.status || 'pending').toLowerCase()}">${o.status || 'PENDING'}</span></td><td><button class="btn btn-sm btn-outline" onclick="updateOrderStatus('${o.id}','DELIVERED')">Delivered</button></td></tr>`).join('');
+  } catch(e) { toast(e.message || 'Orders unavailable', 'error'); }
+};
+
+renderUsersAdmin = async function() {
+  try {
+    const users = await apiFetch('/admin/users');
+    document.getElementById('userCount').textContent = users.length + ' users';
+    document.getElementById('usersTable').innerHTML = users.map(u=>`
+      <tr><td style="font-weight:600">${u.firstName || ''} ${u.lastName || ''}</td><td>${u.email || ''}</td><td>${u.phone || ''}</td><td>${normalizeRoles(u.roles).map(r=>`<span class="tag ${r === 'ADMIN' ? 'tag-sale' : 'tag-rental'}">${r}</span>`).join(' ')}</td><td>${u.governorate || ''}</td>
+      <td><span class="status-badge ${u.active ? 'status-confirmed' : 'status-cancelled'}">${u.active ? 'Active' : 'Suspended'}</span></td>
+      <td>
+        <button class="btn btn-sm btn-outline" onclick="openUserForm('${u.id}')">Edit</button>
+        ${normalizeRoles(u.roles).includes('ADMIN') ? '' : `<button class="btn btn-sm btn-outline" onclick="promoteUser('${u.id}')">Admin</button>`}
+        <button class="btn btn-sm" style="background:#fee2e2;color:#ef4444" onclick="setUserStatus('${u.id}',${!u.active})">${u.active ? 'Suspend' : 'Activate'}</button>
+        <button class="btn btn-sm" style="background:#fee2e2;color:#ef4444" onclick="deleteUser('${u.id}')">Delete</button>
+      </td></tr>`).join('');
+  } catch(e) { toast(e.message || 'Users unavailable', 'error'); }
+};
+
+renderMaintenance = async function() {
+  try { maintenanceTasks = await apiFetch('/admin/maintenance'); } catch(e) { maintenanceTasks = []; }
+  document.getElementById('maintenanceTable').innerHTML = maintenanceTasks.length ? maintenanceTasks.map(t=>`
+    <tr><td style="font-weight:600">${t.title}</td><td>${t.category?.replace('_',' ') || ''}</td><td><span class="status-badge priority-${(t.priority || 'medium').toLowerCase()}">${t.priority || 'MEDIUM'}</span></td><td>${t.assignedTo || ''}</td><td><span class="status-badge status-${(t.status || 'open').toLowerCase().replace('_','-')}">${(t.status || 'OPEN').replace('_',' ')}</span></td><td>${t.dueDate || ''}</td></tr>`).join('') : '<tr><td colspan="6">No maintenance tasks.</td></tr>';
+};
+
+loadProfile = async function() {
+  if (!currentUser) { showSection('home'); openAuthModal(); return; }
+  try {
+    const profile = await apiFetch('/auth/me');
+    saveCurrentUser({...profile, token: currentUser.token});
+  } catch(e) {}
+  document.getElementById('profileAvatar').textContent = currentUser.firstName?.[0]?.toUpperCase() || 'U';
+  document.getElementById('profileName').textContent = `${currentUser.firstName || ''} ${currentUser.lastName || ''}`.trim() || currentUser.email;
+  document.getElementById('profileEmail').textContent = currentUser.email;
+  populateProfileForm();
+  document.getElementById('profileGov').textContent = currentUser.governorate ? ' '+currentUser.governorate : '';
+  try {
+    const [bookings, orders] = await Promise.all([apiFetch('/bookings/my'), apiFetch('/orders/my')]);
+    document.getElementById('myBookings').innerHTML = bookings.length ? bookings.map(b=>`<div class="booking-card"><div><strong>${b.campingCenterName || 'Camping booking'}</strong><p class="text-muted">${b.checkIn || ''} → ${b.checkOut || ''} · ${b.numberOfPersons || 0} persons</p></div><span class="status-badge status-${(b.status || 'pending').toLowerCase()}">${b.status || 'PENDING'}</span></div>`).join('') : '<p class="text-muted">No bookings yet.</p>';
+    document.getElementById('myOrders').innerHTML = orders.length ? orders.map(o=>`<div class="order-card"><div><strong>Order ${o.id}</strong><p class="text-muted">${o.orderType || ''} · ${o.totalAmount || 0} TND</p></div><span class="status-badge status-${(o.status || 'pending').toLowerCase()}">${o.status || 'PENDING'}</span></div>`).join('') : '<p class="text-muted">No orders yet.</p>';
+  } catch(e) {
+    document.getElementById('myBookings').innerHTML = '<p class="text-muted">Could not load bookings.</p>';
+    document.getElementById('myOrders').innerHTML = '<p class="text-muted">Could not load orders.</p>';
+  }
+};
+
+function populateProfileForm() {
+  const values = {
+    profileFirst: currentUser?.firstName || '',
+    profileLast: currentUser?.lastName || '',
+    profileEmailInput: currentUser?.email || '',
+    profilePhone: currentUser?.phone || '',
+    profileGovInput: currentUser?.governorate || '',
+    profileCity: currentUser?.city || '',
+    profileAddress: currentUser?.address || '',
+    profilePassword: ''
+  };
+  Object.entries(values).forEach(([id, value]) => {
+    const el = document.getElementById(id);
+    if (el) el.value = value;
+  });
+}
+
+function openProfileSettings() {
+  const settingsBtn = [...document.querySelectorAll('.profile-tabs .tab-btn')]
+    .find(btn => btn.getAttribute('onclick')?.includes('tab-settings'));
+  if (settingsBtn) switchTab(settingsBtn, 'tab-settings');
+  populateProfileForm();
+}
+
+async function saveProfile() {
+  const payload = {
+    firstName: document.getElementById('profileFirst').value.trim(),
+    lastName: document.getElementById('profileLast').value.trim(),
+    email: document.getElementById('profileEmailInput').value.trim(),
+    phone: document.getElementById('profilePhone').value.trim(),
+    governorate: document.getElementById('profileGovInput').value,
+    city: document.getElementById('profileCity').value.trim(),
+    address: document.getElementById('profileAddress').value.trim()
+  };
+  const password = document.getElementById('profilePassword').value;
+  if (password) payload.password = password;
+  if (!payload.firstName || !payload.lastName || !payload.email) {
+    toast('First name, last name and email are required', 'error');
+    return;
+  }
+
+  try {
+    const updated = await apiFetch('/auth/me', {method:'PUT', body: JSON.stringify(payload)});
+    saveCurrentUser(updated);
+    updateNavForUser();
+    document.getElementById('profilePassword').value = '';
+    await loadProfile();
+    openProfileSettings();
+    toast('Profile updated');
+  } catch(e) {
+    toast(e.message || 'Profile update failed', 'error');
+  }
+}
+
+const originalPredictBudget = predictBudget;
+predictBudget = async function() {
+  if (!requireLogin('budget')) return;
+  return originalPredictBudget();
+};
+
+async function updateBookingStatus(id, status) { try { await apiFetch(`/bookings/${id}/status?status=${encodeURIComponent(status)}`, {method:'PUT'}); await renderBookingsAdmin(); toast('Booking updated'); } catch(e) { toast(e.message || 'Update failed', 'error'); } }
+async function updateOrderStatus(id, status) { try { await apiFetch(`/orders/${id}/status?status=${encodeURIComponent(status)}`, {method:'PUT'}); await renderOrdersAdmin(); toast('Order updated'); } catch(e) { toast(e.message || 'Update failed', 'error'); } }
+async function setUserStatus(id, active) { try { await apiFetch(`/admin/users/${id}/status?active=${active}`, {method:'PUT'}); await renderUsersAdmin(); toast('User updated'); } catch(e) { toast(e.message || 'Update failed', 'error'); } }
+async function promoteUser(id) { try { await apiFetch(`/admin/users/${id}/promote`, {method:'PUT'}); await renderUsersAdmin(); toast('User promoted'); } catch(e) { toast(e.message || 'Promotion failed', 'error'); } }
+async function deleteUser(id) {
+  if (!confirm('Delete this user permanently?')) return;
+  try {
+    await apiFetch(`/admin/users/${id}`, {method:'DELETE'});
+    await renderUsersAdmin();
+    toast('User deleted');
+  } catch(e) { toast(e.message || 'Delete failed', 'error'); }
+}
+
+async function openUserForm(id) {
+  let existing = {};
+  if (id) {
+    existing = await apiFetch(`/admin/users/${id}`);
+  }
+
+  const firstName = prompt('First name:', existing.firstName || '');
+  if (!firstName) return;
+  const lastName = prompt('Last name:', existing.lastName || '');
+  if (!lastName) return;
+  const email = prompt('Email:', existing.email || '');
+  if (!email) return;
+  const password = prompt(id ? 'New password (leave empty to keep current):' : 'Password:');
+  if (!id && !password) { toast('Password is required', 'error'); return; }
+  const phone = prompt('Phone:', existing.phone || '') || '';
+  const governorate = prompt('Governorate:', existing.governorate || '') || '';
+  const city = prompt('City:', existing.city || '') || '';
+  const rolesInput = prompt('Roles separated by comma:', normalizeRoles(existing.roles || ['USER']).join(',')) || 'USER';
+  const activeInput = prompt('Active? true/false:', existing.active === false ? 'false' : 'true') || 'true';
+
+  const payload = {
+    firstName,
+    lastName,
+    email,
+    password,
+    phone,
+    governorate,
+    city,
+    active: activeInput.toLowerCase() === 'true',
+    roles: rolesInput.split(',').map(r => r.trim().toUpperCase()).filter(Boolean)
+  };
+
+  try {
+    await apiFetch(id ? `/admin/users/${id}` : '/admin/users', {
+      method: id ? 'PUT' : 'POST',
+      body: JSON.stringify(payload)
+    });
+    await renderUsersAdmin();
+    toast('User saved');
+  } catch(e) { toast(e.message || 'Save failed', 'error'); }
+}
+
+openAddTask = async function() {
+  const title = prompt('Task title:');
+  if (!title) return;
+  try {
+    await apiFetch('/admin/maintenance', {method:'POST', body: JSON.stringify({title, priority: prompt('Priority (LOW/MEDIUM/HIGH/CRITICAL):','MEDIUM') || 'MEDIUM', category: prompt('Category (WEBSITE/DATABASE/ML_MODEL/INFRASTRUCTURE/CONTENT):','WEBSITE') || 'WEBSITE', assignedTo: prompt('Assign to:','Dev Team') || 'Dev Team', status: 'OPEN'})});
+    await renderMaintenance();
+    toast('Maintenance task saved');
+  } catch(e) { toast(e.message || 'Task creation failed', 'error'); }
+};
+
+async function openCenterForm(id) {
+  const existing = campingCenters.find(c => c.id === id) || {};
+  const name = prompt('Center name:', existing.name || '');
+  if (!name) return;
+  const center = {...existing, name, governorate: prompt('Governorate:', existing.governorate || 'Tunis') || existing.governorate, siteNature: prompt('Type:', existing.siteNature || 'Littoral') || existing.siteNature, capacityTotal: parseInt(prompt('Total capacity:', existing.capacityTotal || 0), 10) || 0, rating: parseFloat(prompt('Rating:', existing.rating || 4)) || 0, active: true};
+  try { await apiFetch(id ? `/camping-centers/${id}` : '/camping-centers', {method: id ? 'PUT' : 'POST', body: JSON.stringify(center)}); await renderCentersAdmin(); toast('Camping center saved'); }
+  catch(e) { toast(e.message || 'Save failed', 'error'); }
+}
+async function deleteCenter(id) { if (!confirm('Delete this camping center?')) return; try { await apiFetch(`/camping-centers/${id}`, {method:'DELETE'}); await renderCentersAdmin(); toast('Camping center deleted'); } catch(e) { toast(e.message || 'Delete failed', 'error'); } }
+
+async function openProductForm(id) {
+  const existing = products.find(p => p.id === id) || {};
+  const name = prompt('Product name:', existing.name || '');
+  if (!name) return;
+  const product = {...existing, name, category: prompt('Category:', existing.category || 'TENT') || 'TENT', price: parseFloat(prompt('Price:', existing.price || 0)) || 0, rentalPricePerDay: parseFloat(prompt('Rental/day:', existing.rentalPricePerDay || 0)) || 0, stockSale: parseInt(prompt('Sale stock:', existing.stockSale || 0), 10) || 0, stockRental: parseInt(prompt('Rental stock:', existing.stockRental || 0), 10) || 0, active: true};
+  try { await apiFetch(id ? `/products/${id}` : '/products', {method: id ? 'PUT' : 'POST', body: JSON.stringify(product)}); await renderProductsAdmin(); toast('Product saved'); }
+  catch(e) { toast(e.message || 'Save failed', 'error'); }
+}
+async function deleteProduct(id) { if (!confirm('Delete this product?')) return; try { await apiFetch(`/products/${id}`, {method:'DELETE'}); await renderProductsAdmin(); toast('Product deleted'); } catch(e) { toast(e.message || 'Delete failed', 'error'); } }
 
 // ==================== INIT ====================
 window.addEventListener('load', () => {
@@ -1801,7 +2339,7 @@ window.addEventListener('load', () => {
   updateCartBadge();
   updateNavForUser();
   // Preload first section data
-  loadCampingCenters();
+  if (currentUser) loadCampingCenters();
 });
 </script>
 </body>

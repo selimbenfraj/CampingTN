@@ -1,7 +1,9 @@
 package com.camping.controller;
 
+import com.camping.dto.AdminUserDTO;
 import com.camping.model.*;
 import com.camping.service.AdminService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,18 +24,41 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<AdminUserDTO.UserResponse>> getUsers() {
         return ResponseEntity.ok(adminService.getAllUsers());
     }
 
+    @GetMapping("/users/{id}")
+    public ResponseEntity<AdminUserDTO.UserResponse> getUser(@PathVariable String id) {
+        return ResponseEntity.ok(adminService.getUser(id));
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity<AdminUserDTO.UserResponse> createUser(@Valid @RequestBody AdminUserDTO.UserRequest request) {
+        return ResponseEntity.ok(adminService.createUser(request));
+    }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<AdminUserDTO.UserResponse> updateUser(
+            @PathVariable String id,
+            @Valid @RequestBody AdminUserDTO.UserRequest request) {
+        return ResponseEntity.ok(adminService.updateUser(id, request));
+    }
+
     @PutMapping("/users/{id}/status")
-    public ResponseEntity<User> updateUserStatus(@PathVariable String id, @RequestParam boolean active) {
+    public ResponseEntity<AdminUserDTO.UserResponse> updateUserStatus(@PathVariable String id, @RequestParam boolean active) {
         return ResponseEntity.ok(adminService.updateUserStatus(id, active));
     }
 
     @PutMapping("/users/{id}/promote")
-    public ResponseEntity<User> promoteUser(@PathVariable String id) {
+    public ResponseEntity<AdminUserDTO.UserResponse> promoteUser(@PathVariable String id) {
         return ResponseEntity.ok(adminService.promoteToAdmin(id));
+    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
+        adminService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/activity")

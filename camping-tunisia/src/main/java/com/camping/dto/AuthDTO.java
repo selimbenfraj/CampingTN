@@ -18,6 +18,21 @@ public class AuthDTO {
         @NotBlank @Size(min = 6) private String password;
         private String phone;
         private String governorate;
+        private String adminCode;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ProfileUpdateRequest {
+        @NotBlank private String firstName;
+        @NotBlank private String lastName;
+        @Email @NotBlank private String email;
+        private String password;
+        private String phone;
+        private String address;
+        private String governorate;
+        private String city;
     }
 
     @Data
@@ -37,6 +52,10 @@ public class AuthDTO {
         private String email;
         private String firstName;
         private String lastName;
+        private String phone;
+        private String address;
+        private String governorate;
+        private String city;
         private java.util.Set<String> roles;
         private String userId;
     }
